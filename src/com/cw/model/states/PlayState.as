@@ -46,6 +46,8 @@ package com.cw.model.states{
 		public function stop():void{
 			trace(" ::::::::::: PlayState.stop() " + musicPlayerState);
 			musicPlayerState.setState(musicPlayerState.getStop());
+			musicPlayerState.notifyObservers('theStopStateOn');
+			musicPlayerState.notifyObservers('thePlayStateOff');
 		}
 		public function pause():void{
 		}

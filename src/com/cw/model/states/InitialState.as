@@ -42,10 +42,14 @@ package com.cw.model.states {
 		public function play ():void {
 			trace(" ::::::::::: InitialState.play() " + musicPlayerState);
 			musicPlayerState.setState(musicPlayerState.getPlay());
+			musicPlayerState.notifyObservers('theStopStateOff');
+			musicPlayerState.notifyObservers('thePlayStateOn');
 		}
 		public function stop ():void {
 			trace(" ::::::::::: InitialState.stop() ");
 			musicPlayerState.setState(musicPlayerState.getStop());
+			musicPlayerState.notifyObservers('theStopStateOn');
+			musicPlayerState.notifyObservers('thePlayStateOff');
 		}
 		public function pause ():void {
 			trace(" ::::::::::: InitialState.pause() ");

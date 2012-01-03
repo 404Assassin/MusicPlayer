@@ -6,7 +6,7 @@
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // Package Declaration
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-package  com.cw.view.buttons {
+package com.cw.view.buttons {
 	/**
 	 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	 * class description: StopButton
@@ -20,23 +20,16 @@ package  com.cw.view.buttons {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	import com.cw.control.observer.IObserver;
 	import com.cw.control.observer.ISubject;
-	import com.cw.control.observer.InvokedObserver;
-	import com.cw.model.MusicPlayerState;
 	import com.cw.view.tweenStates.ButtonStates;
-	import flash.display.Loader;
-	import flash.display.MovieClip;
 	import flash.display.Sprite;
-	import flash.display.Stage;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	public class StopButton implements ISubject {
+	public class StopButton implements IButton, ISubject {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -45,7 +38,8 @@ package  com.cw.view.buttons {
 		private var buttonStates:ButtonStates = new ButtonStates();
 		private var theStopButton:bttn_stop = new bttn_stop();
 		private var theButtonState:String;
-//		private var theMusicPlayerState:MusicPlayerState = new MusicPlayerState();
+		private var theButtonBoolean:Boolean;
+//		private var theState:String = 'theStopState';
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -53,10 +47,11 @@ package  com.cw.view.buttons {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Public Interfaces
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		public function setStopButton ():void {
+		public function setButton (theButtonState:String):void {
+			this.theButtonState = theButtonState
 			buttonBuild();
 		}
-		public function getStopButton ():Sprite {
+		public function getButton ():Sprite {
 			return theButton
 		}
 		/**
@@ -65,29 +60,34 @@ package  com.cw.view.buttons {
 		 */
 		public function addObserver (observer:ISubject):void {
 			this.observer = observer;
-			trace(" ::::::::::: StopButton.addObserver(observer) " + '\n' + observer + '\n' + this);
 			observer.addObserver(this);
 		}
 		/**
-		 * InvokedObserver notification
+		 * notify InvokedObservers
 		 */
-		public function notifyObservers (infoObject:Object):void {
+		public function notifyObservers (infoObject:String):void {
 			observer.notifyObservers(infoObject);
 		}
 		/**
 		 * remove an observer refrence from InvokedObserver
 		 */
 		public function removeObserver (observer:ISubject):void {
+			observer.removeObserver(this);
 		}
-		public function update (observer:ISubject, infoObject:Object):void {
-			trace(" ::::::::::: StopButton.update(observer, infoObject) " + '\n' + observer + '\n' + infoObject);
-			buttonState(infoObject)
+		/**
+		 * receive notification from InvokedObserver
+		 */
+		public function update (observer:ISubject, infoObject:String):void {
+			try {
+				this[infoObject](infoObject);
+			} catch(error:Error) {
+				trace(" ::::::::::: skip non methods!!!!! ");
+			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private function buttonBuild ():void {
-			trace(" ::::::::::: StopButton.buttonBuild() " + '\n' + theStopButton + '\n' + theButton);
 			theButton = new Sprite();
 			theButton.addChild(theStopButton);
 			theStopButton.x = 0;
@@ -104,28 +104,25 @@ package  com.cw.view.buttons {
 		}
 		private function placementTargetOver (overEvent:Event):void {
 			buttonStates.buttonStatesInterface(theStopButton.background, 'OverState');
-//			buttonStates.buttonStatesInterface(theStopButton.icon, 'OverState');
+			buttonStates.buttonStatesInterface(theStopButton.icon, 'OverState');
 		}
 		private function placementTargetOut (outEvent:Event):void {
 			buttonStates.buttonStatesInterface(theStopButton.background, 'OutState');
-//			buttonStates.buttonStatesInterface(theStopButton.icon, 'OutState');
+			buttonStates.buttonStatesInterface(theStopButton.icon, 'OutState');
 		}
 		private function placementTargetDown (downEvent:Event):void {
 			buttonStates.buttonStatesInterface(theStopButton.background, 'DownState');
-//			buttonStates.buttonStatesInterface(theStopButton.icon, 'DownState');
+			buttonStates.buttonStatesInterface(theStopButton.icon, 'DownState');
 		}
 		private function placementTargetUp (upEvent:Event):void {
 			buttonStates.buttonStatesInterface(theStopButton.background, 'UpState');
-//			buttonStates.buttonStatesInterface(theStopButton.icon, 'UpState');
-			theButtonState = 'stop';
 			notifyObservers(theButtonState);
 		}
-		private function buttonState(infoObject:Object):void{
-			if (infoObject == 'stop'){
-				buttonStates.buttonStatesInterface(theStopButton.icon, 'OnState');
-			} else {
-				buttonStates.buttonStatesInterface(theStopButton.icon, 'OffState');
-			}
+		private function theStopStateOn (infoObject:String):void {
+			buttonStates.buttonStatesInterface(theStopButton.iconTop, 'OnState');
+		}
+		private function theStopStateOff (infoObject:String):void {
+			buttonStates.buttonStatesInterface(theStopButton.iconTop, 'OffState');
 		}
 	}
 }
