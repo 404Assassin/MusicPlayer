@@ -54,9 +54,8 @@ package com.cw.model {
 			this.state = initialState;
 		}
 		public function setState (state:IMusicPlayerState):void {
-			trace(" ::::::::::: MusicPlayerState.setState(state) "+ state);
 			this.state = state;
-			notifyObservers (state)
+//			notifyObservers(theState);
 		}
 		/**
 		 * InvokedObserver interface, reference update, and subscription with
@@ -64,14 +63,14 @@ package com.cw.model {
 		 */
 		public function addObserver (observer:ISubject):void {
 			this.observer = observer;
-			trace(" ::::::::::: MusicPlayerUI.registerObserver(observerInstanceReference) " + '\n' + observer + '\n' + this);
 			observer.addObserver(this);
 		}
 		/**
 		 * InvokedObserver notification
 		 */
-		public function notifyObservers (infoObject:Object):void {
-			trace(" ::::::::::: MusicPlayerState.notifyObservers(infoObject) " + infoObject);
+		public function notifyObservers (infoObject:String):void {
+			trace(" ::::::::::: MusicPlayerState.notifyObservers(infoObject)infoObject.name "+infoObject);
+			
 			observer.notifyObservers(infoObject);
 		}
 		/**
@@ -79,9 +78,14 @@ package com.cw.model {
 		 */
 		public function removeObserver (observer:ISubject):void {
 		}
-		public function update (observer:ISubject, infoObject:Object):void {
-			this[infoObject]();
-			trace(" ::::::::::: MusicPlayerState.update(infoObject, state) " + '\n' + observer + '\n' + state);
+		public function update (observer:ISubject, infoObject:String):void {
+			try{
+				trace(" ::::::::::: MusicPlayerState.update(observer, infoObject) we are on");
+				
+				this[infoObject]();
+			} catch (error:Error) {
+				trace(" ::::::::::: skip non methods!!!!! ");
+			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// get Interfaces
@@ -92,10 +96,12 @@ package com.cw.model {
 		}
 		public function getPlay ():IMusicPlayerState {
 			trace(" ::::::::::: MusicPlayerState.getPlay() ");
+//			notifyObservers('thePlayState');
 			return this.playState;
 		}
 		public function getStop ():IMusicPlayerState {
 			trace(" ::::::::::: MusicPlayerState.getStop() ");
+//			notifyObservers('theStopState');
 			return this.stopState;
 		}
 //		public function getPause ():IMusicPlayerState {

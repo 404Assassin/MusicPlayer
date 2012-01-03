@@ -38,6 +38,6 @@ package com.cw.control.observer{
 		/**
 		 * notify the InvokedObserver observers of an update
 		 */
-		function notifyObservers(infoObj:Object):void
+		function notifyObservers(infoObject:String):void
 	}
 }

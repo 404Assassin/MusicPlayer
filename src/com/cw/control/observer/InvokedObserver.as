@@ -58,7 +58,7 @@ package com.cw.control.observer{
 		 * Notify all observers that the subject has changed and pass the 
 		 * infoObject param.
 		 */
-		public function notifyObservers (infoObject:Object):void {
+		public function notifyObservers (infoObject:String):void {
 			var observersSnapshot:Array = observers.slice(0);
 			for (var i:Number = observersSnapshot.length-1; i >= 0; i--) {
 				observersSnapshot[i].update(this, infoObject);

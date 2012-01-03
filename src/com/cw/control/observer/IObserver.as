@@ -27,6 +27,6 @@ package com.cw.control.observer{
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Public Interfaces
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		function update(infoObject:Object):void;
+		function update(infoObject:String):void;
 	}
 }
