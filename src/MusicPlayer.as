@@ -39,7 +39,6 @@ package  {
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var uiInvokedObserver:ISubject = new InvokedObserver();
-		private var stateInvokedObserver:ISubject = new InvokedObserver();
 		private var theMusicPlayerUIHolder:Sprite;
 		private var theMusicPlayerUI:MusicPlayerUI;
 		private var theMusicPlayerState:MusicPlayerState;
