@@ -21,6 +21,8 @@ package com.cw.model.states {
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	import com.cw.model.MusicPlayerState;
+	import com.greensock.loading.LoaderMax;
+	import com.greensock.loading.MP3Loader;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -29,42 +31,68 @@ package com.cw.model.states {
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var musicPlayerState:MusicPlayerState;
+		private var currentTrack:String = 'track1';
+		private var currentTrackLoader:MP3Loader;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function InitialState (musicPlayerState:MusicPlayerState) {
 			this.musicPlayerState = musicPlayerState;
-			trace(" ::::::::::: InitialState.InitialState() " + musicPlayerState);
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Public Interfaces
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function play ():void {
-			trace(" ::::::::::: InitialState.play() " + musicPlayerState);
+			currentTrackLoader = LoaderMax.getLoader(currentTrack);
+			currentTrackLoader.playSound();
 			musicPlayerState.setState(musicPlayerState.getPlay());
-			musicPlayerState.notifyObservers('theStopStateOff');
+			musicPlayerState.notifyObservers('theForwardStateOff');
 			musicPlayerState.notifyObservers('thePlayStateOn');
+			musicPlayerState.notifyObservers('theStopStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		public function stop ():void {
-			trace(" ::::::::::: InitialState.stop() ");
-			musicPlayerState.setState(musicPlayerState.getStop());
-			musicPlayerState.notifyObservers('theStopStateOn');
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
 			musicPlayerState.notifyObservers('thePlayStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		public function pause ():void {
-			trace(" ::::::::::: InitialState.pause() ");
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('thePlayStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		public function next ():void {
-			trace(" ::::::::::: InitialState.next() ");
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('thePlayStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		public function back ():void {
-			trace(" ::::::::::: InitialState.back() ");
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('thePlayStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		public function forward ():void {
-			trace(" ::::::::::: InitialState.forward() ");
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('thePlayStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		public function rewind ():void {
-			trace(" ::::::::::: InitialState.rewind() ");
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('thePlayStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
