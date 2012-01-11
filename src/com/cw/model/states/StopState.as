@@ -21,6 +21,8 @@ package com.cw.model.states{
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	import com.cw.model.MusicPlayerState;
+	import com.greensock.loading.MP3Loader;
+	import com.greensock.loading.LoaderMax;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -29,27 +31,35 @@ package com.cw.model.states{
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var musicPlayerState:MusicPlayerState;
+		private var currentTrack:String = 'track1';
+		private var currentTrackLoader:MP3Loader;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function StopState(musicPlayerState:MusicPlayerState){
 			this.musicPlayerState = musicPlayerState;
-			trace(" ::::::::::: StopState.StopState(musicPlayerState) ");
-			
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Public Interfaces
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function play():void{
-			trace(" ::::::::::: StopState.play() " + musicPlayerState);
+			currentTrackLoader = LoaderMax.getLoader(currentTrack);
+			currentTrackLoader.playSound();
 			musicPlayerState.setState(musicPlayerState.getPlay());
-			musicPlayerState.notifyObservers('theStopStateOff');
 			musicPlayerState.notifyObservers('thePlayStateOn');
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
 		}
 		public function stop():void{
-			trace(" ::::::::::: StopState.stop() " + musicPlayerState);
+			musicPlayerState.notifyObservers('theStopStateOff');
 		}
 		public function pause():void{
+			musicPlayerState.notifyObservers('thePlayStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
 		}
 		public function next():void{
 		}
@@ -58,6 +68,11 @@ package com.cw.model.states{
 		public function forward():void{
 		}
 		public function rewind():void{
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
+			musicPlayerState.notifyObservers('thePlayStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
