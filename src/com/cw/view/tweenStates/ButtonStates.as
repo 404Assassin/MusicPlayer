@@ -20,10 +20,10 @@ package  com.cw.view.tweenStates{
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	import flash.display.Sprite;
-	import flash.display.MovieClip;
 	import com.greensock.TweenMax;
 	import com.greensock.easing.Sine;
+	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -36,8 +36,6 @@ package  com.cw.view.tweenStates{
 		private var animeOverState:String = 'OverState';
 		private var animeOutState:String = 'OutState';
 		private var animeUpState:String = 'UpState';
-		private var animeOnState:String = 'OnState';
-		private var animeOffState:String = 'OffState';
 		/**
 		 *	anime target DOWN visual state params
 		 */		
@@ -78,16 +76,6 @@ package  com.cw.view.tweenStates{
 		private var upBlurYValue:Number = 3;
 		private var upGlowStrength:Number = 5;
 		private var upGlowQuality:Number = 5;
-		/**
-		 * anime target ON visual state params
-		 */
-		private var onAnimeTime:Number = .25;
-		private var onColor:String = '0x3399FF';
-		/**
-		 * anime target OFF visual state params
-		 */
-		private var offAnimeTime:Number = 1;
-		private var offColor:String = '0x000000';
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -109,11 +97,7 @@ package  com.cw.view.tweenStates{
 				onBttnRollOut();
 			} else if (actionType == animeUpState){
 				onBttnUp();
-			} else if (actionType == animeOnState){
-				bttnOn();
-			} else if (actionType == animeOffState){
-				bttnOff();
-			}
+			} 
 		}
 		/**
 		 * Mouse event visual animations.
@@ -137,15 +121,6 @@ package  com.cw.view.tweenStates{
 			TweenMax.to (animeTarget,upAnimeTime,{
 				glowFilter:{color:upGlowColor,alpha:upAlphaValue,blurX:upBlurXValue,blurY:upBlurYValue,strength:upGlowStrength,quality:upGlowQuality},
 				ease:Sine.easeOut});
-		}
-		/** 
-		 * Button visual states.
-		 */		
-		private function bttnOn ():void {
-			TweenMax.to (animeTarget,onAnimeTime,{tint:onColor, ease:Sine.easeOut});
-		}
-		private function bttnOff ():void {
-			TweenMax.to (animeTarget,offAnimeTime,{tint:offColor, ease:Sine.easeOut});
 		}
 	}
 }
