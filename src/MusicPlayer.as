@@ -6,7 +6,7 @@
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // Package Declaration
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-package  {
+package {
 	/**
 	 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	 * class description: musicPlayer
@@ -23,10 +23,17 @@ package  {
 	import com.cw.control.observer.IObserver;
 	import com.cw.control.observer.ISubject;
 	import com.cw.control.observer.InvokedObserver;
+	import com.cw.model.MP3LoadQueue;
 	import com.cw.model.MusicPlayerState;
 	import com.cw.view.MusicPlayerUI;
+	import com.greensock.events.LoaderEvent;
+	import com.greensock.loading.LoaderMax;
+	import com.greensock.loading.MP3Loader;
+	import com.greensock.loading.XMLLoader;
 	import flash.display.Sprite;
 	import flash.display.Stage;
+	import flash.events.Event;
+	import flash.utils.Dictionary;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// SWF characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -42,6 +49,7 @@ package  {
 		private var theMusicPlayerUIHolder:Sprite;
 		private var theMusicPlayerUI:MusicPlayerUI;
 		private var theMusicPlayerState:MusicPlayerState;
+//		private var sound:MP3Loader;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -53,7 +61,7 @@ package  {
 		// Public Interfaces
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		/**
-		 * Get the Music Player for use through composition.
+		 * Get the Music Player UI for use through composition.
 		 */
 		public function getMusicPlayer ():Sprite {
 			return theMusicPlayerUIHolder;
@@ -68,9 +76,14 @@ package  {
 		// Private Methods
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private function initTheBuild ():void {
+			loadMp3();
 			addMusicPlayerUI();
 			addMusicPlayerToStage();
 			musicPlayerState();
+		}
+		private function loadMp3 ():void {
+			var theMP3LoadQueue:MP3LoadQueue = new MP3LoadQueue();
+			theMP3LoadQueue.initMP3LoadQueue();
 		}
 		/**
 		 * Add the Music Player user interface.
