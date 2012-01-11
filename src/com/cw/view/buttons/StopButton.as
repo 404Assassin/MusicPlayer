@@ -20,8 +20,10 @@ package com.cw.view.buttons {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	import com.cw.control.observer.IObserver;
 	import com.cw.control.observer.ISubject;
 	import com.cw.view.tweenStates.ButtonStates;
+	import com.cw.view.tweenStates.ButtonOnOffStates;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -29,17 +31,16 @@ package com.cw.view.buttons {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	public class StopButton implements IButton, ISubject {
+	public class StopButton implements IButton, ISubject, IObserver  {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var observer:ISubject;
 		private var theButton:Sprite
 		private var buttonStates:ButtonStates = new ButtonStates();
+		private var buttonOnOffStates:ButtonOnOffStates = new ButtonOnOffStates();
 		private var theStopButton:bttn_stop = new bttn_stop();
 		private var theButtonState:String;
-		private var theButtonBoolean:Boolean;
-//		private var theState:String = 'theStopState';
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -77,7 +78,7 @@ package com.cw.view.buttons {
 		/**
 		 * receive notification from InvokedObserver
 		 */
-		public function update (observer:ISubject, infoObject:String):void {
+		public function update (infoObject:String):void {
 			try {
 				this[infoObject](infoObject);
 			} catch(error:Error) {
@@ -90,8 +91,6 @@ package com.cw.view.buttons {
 		private function buttonBuild ():void {
 			theButton = new Sprite();
 			theButton.addChild(theStopButton);
-			theStopButton.x = 0;
-			theStopButton.y = 0;
 			addButtonEvents();
 		}
 		private function addButtonEvents ():void {
@@ -104,25 +103,34 @@ package com.cw.view.buttons {
 		}
 		private function placementTargetOver (overEvent:Event):void {
 			buttonStates.buttonStatesInterface(theStopButton.background, 'OverState');
-			buttonStates.buttonStatesInterface(theStopButton.icon, 'OverState');
+			buttonStates.buttonStatesInterface(theStopButton.iconBottom, 'OverState');
 		}
 		private function placementTargetOut (outEvent:Event):void {
 			buttonStates.buttonStatesInterface(theStopButton.background, 'OutState');
-			buttonStates.buttonStatesInterface(theStopButton.icon, 'OutState');
+			buttonStates.buttonStatesInterface(theStopButton.iconBottom, 'OutState');
+			buttonOnOffStates.buttonStatesInterface(theStopButton.iconMiddle, 'OffState');
 		}
 		private function placementTargetDown (downEvent:Event):void {
+			trace(" ::::::::::: StopButton.placementTargetDown(downEvent) ");
+			
 			buttonStates.buttonStatesInterface(theStopButton.background, 'DownState');
-			buttonStates.buttonStatesInterface(theStopButton.icon, 'DownState');
+			buttonStates.buttonStatesInterface(theStopButton.iconBottom, 'DownState');
+			buttonOnOffStates.buttonStatesInterface(theStopButton.iconMiddle, 'OnState');
 		}
 		private function placementTargetUp (upEvent:Event):void {
 			buttonStates.buttonStatesInterface(theStopButton.background, 'UpState');
+			buttonOnOffStates.buttonStatesInterface(theStopButton.iconMiddle, 'OffState');
 			notifyObservers(theButtonState);
 		}
+		/**
+		 * button on/off states via observer update
+		 * @param infoObject
+		 */	
 		private function theStopStateOn (infoObject:String):void {
-			buttonStates.buttonStatesInterface(theStopButton.iconTop, 'OnState');
+			buttonOnOffStates.buttonStatesInterface(theStopButton.iconTop, 'OnState');
 		}
 		private function theStopStateOff (infoObject:String):void {
-			buttonStates.buttonStatesInterface(theStopButton.iconTop, 'OffState');
+			buttonOnOffStates.buttonStatesInterface(theStopButton.iconTop, 'OffState');
 		}
 	}
 }
