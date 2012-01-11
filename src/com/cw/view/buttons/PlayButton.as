@@ -20,25 +20,26 @@ package com.cw.view.buttons {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	import com.cw.control.observer.IObserver;
 	import com.cw.control.observer.ISubject;
 	import com.cw.view.tweenStates.ButtonStates;
+	import com.cw.view.tweenStates.ButtonOnOffStates;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	public class PlayButton implements IButton, ISubject {
+	public class PlayButton implements IButton, ISubject, IObserver  {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var observer:ISubject;
 		private var theButton:Sprite
 		private var buttonStates:ButtonStates = new ButtonStates();
+		private var buttonOnOffStates:ButtonOnOffStates = new ButtonOnOffStates();
 		private var thePlayButton:bttn_play = new bttn_play();
 		private var theButtonState:String;
-		private var theButtonBoolean:Boolean;
-		private var theState:String = 'thePlayState';
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -76,7 +77,7 @@ package com.cw.view.buttons {
 		/**
 		 * receive notification from InvokedObserver
 		 */
-		public function update (observer:ISubject, infoObject:String):void {
+		public function update (infoObject:String):void {
 			try {
 				this[infoObject](infoObject);
 			} catch(error:Error) {
@@ -103,25 +104,32 @@ package com.cw.view.buttons {
 		}
 		private function placementTargetOver (overEvent:Event):void {
 			buttonStates.buttonStatesInterface(thePlayButton.background, 'OverState');
-			buttonStates.buttonStatesInterface(thePlayButton.icon, 'OverState');
+			buttonStates.buttonStatesInterface(thePlayButton.iconBottom, 'OverState');
 		}
 		private function placementTargetOut (outEvent:Event):void {
 			buttonStates.buttonStatesInterface(thePlayButton.background, 'OutState');
-			buttonStates.buttonStatesInterface(thePlayButton.icon, 'OutState');
+			buttonStates.buttonStatesInterface(thePlayButton.iconBottom, 'OutState');
+			buttonOnOffStates.buttonStatesInterface(thePlayButton.iconMiddle, 'OffState');
 		}
 		private function placementTargetDown (downEvent:Event):void {
 			buttonStates.buttonStatesInterface(thePlayButton.background, 'DownState');
-			buttonStates.buttonStatesInterface(thePlayButton.icon, 'DownState');
+			buttonStates.buttonStatesInterface(thePlayButton.iconBottom, 'DownState');
+			buttonOnOffStates.buttonStatesInterface(thePlayButton.iconMiddle, 'OnState');
 		}
 		private function placementTargetUp (upEvent:Event):void {
 			buttonStates.buttonStatesInterface(thePlayButton.background, 'UpState');
+			buttonOnOffStates.buttonStatesInterface(thePlayButton.iconMiddle, 'OffState');
 			notifyObservers(theButtonState);
 		}
+		/**
+		 * button on/off states via observer update
+		 * @param infoObject
+		 */	
 		private function thePlayStateOn (infoObject:String):void {
-			buttonStates.buttonStatesInterface(thePlayButton.iconTop, 'OnState');
+			buttonOnOffStates.buttonStatesInterface(thePlayButton.iconTop, 'OnState');
 		}
 		private function thePlayStateOff (infoObject:String):void {
-			buttonStates.buttonStatesInterface(thePlayButton.iconTop, 'OffState');
+			buttonOnOffStates.buttonStatesInterface(thePlayButton.iconTop, 'OffState');
 		}
 	}
 }
