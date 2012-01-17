@@ -92,6 +92,7 @@ package com.cw.view.buttons {
 			theButton = new Sprite();
 			theButton.addChild(theStopButton);
 			addButtonEvents();
+			theStopStateOff (null);
 		}
 		private function addButtonEvents ():void {
 			theStopButton.buttonMode = true;
