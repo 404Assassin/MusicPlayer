@@ -20,10 +20,14 @@ package com.cw.model {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	import com.greensock.loading.LoaderMax;
-	import com.greensock.loading.XMLLoader;
+	import com.cw.control.observer.IObserver;
+	import com.cw.control.observer.ISubject;
+	import com.cw.control.observer.InvokedObserver;
+	import com.cw.utilities.loaders.FontSWFLoader;
 	import com.greensock.events.LoaderEvent;
+	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
+	import com.greensock.loading.XMLLoader;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -31,6 +35,9 @@ package com.cw.model {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+		private var fontLoadObserver:ISubject = new InvokedObserver();
+		private var loadSWFFonts:FontSWFLoader = new FontSWFLoader();
+		private var queue1:XMLLoader
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -38,16 +45,26 @@ package com.cw.model {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Public Interfaces
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		public function initMP3LoadQueue():void{
-			loadMp3 ();
+		public function initMP3LoadQueue ():void {
+			loadMp3();
+			loadFont();
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+		/**
+		 * Load external fonts. Must match font used in CSS doc.
+		 *
+		 */
+		private function loadFont ():void {
+			loadSWFFonts.fontSWFLoaderInterface('./fonts/fontENTrebuchetMS.swf');
+			loadSWFFonts.observableInstanceRef(fontLoadObserver);
+			loadSWFFonts.observableInstanceRef(fontLoadObserver);
+		}
 		private function loadMp3 ():void {
 			LoaderMax.activate([MP3Loader]);
-			var loader:XMLLoader = new XMLLoader("xml/mp3List.xml", {onProgress: progressHandler, onComplete: completeHandler, estimatedBytes: 50000});
-			loader.load();
+			queue1 = new XMLLoader("xml/mp3List.xml", {onProgress: progressHandler, onComplete: completeHandler, estimatedBytes: 50000});
+			queue1.load();
 		}
 		private function progressHandler (event:LoaderEvent):void {
 			trace("progress: " + event.target.progress);
@@ -57,13 +74,15 @@ package com.cw.model {
 		 * in the XML and start loading it now.
 		 */
 		private function completeHandler (event:LoaderEvent):void {
-			var queue2:LoaderMax = LoaderMax.getLoader("queueTrack2");
-			queue2.addEventListener(LoaderEvent.COMPLETE, queue2CompleteHandler);
-			queue2.addEventListener(LoaderEvent.PROGRESS, progressHandler);
-			queue2.load();
+			var mp3Array:Array;
+			mp3Array = queue1.getChildren(true, true);
+			trace(" ::::::::::: MP3LoadQueue.completeHandler(event) " + '\n' + event.target.name + '\n' + mp3Array + '\n' + mp3Array.length);
+			loadCompleteHandler();
 		}
-		private function queue2CompleteHandler (event:LoaderEvent):void {
-			trace("queue2 loaded!");
+		private function loadCompleteHandler ():void {
+			var xmlQueue:LoaderMax = LoaderMax.getLoader("mp3Queue");
+			var xmlArray:Array = xmlQueue.content;
+			trace(" ::::::::::: MusicPlayerState.setState(state) " + xmlArray.length);
 		}
 	}
 }
