@@ -21,9 +21,11 @@ package com.cw.model.states{
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	import com.cw.model.MusicPlayerState;
+	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
 	import com.greensock.TweenMax;
+	import flash.events.Event;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -32,7 +34,7 @@ package com.cw.model.states{
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var musicPlayerState:MusicPlayerState;
-		private var currentTrack:String = 'track1';
+		private var currentTrack:String;
 		private var currentTrackLoader:MP3Loader;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
@@ -44,75 +46,107 @@ package com.cw.model.states{
 		// Public Interfaces
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function play():void{
-			TweenMax.killAll(false, false, true);
+			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			currentTrackLoader.playSound();
 			musicPlayerState.setState(musicPlayerState.getPlay());
+			reset();
 			musicPlayerState.notifyObservers('thePlayStateOn');
-			musicPlayerState.notifyObservers('theStopStateOff');
-			musicPlayerState.notifyObservers('thePauseStateOff');
-			musicPlayerState.notifyObservers('theForwardStateOff');
-			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		public function stop():void{
-			TweenMax.killAll(false, false, true);
+			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			currentTrackLoader.gotoSoundTime(0);
 			currentTrackLoader.pauseSound();
 			musicPlayerState.setState(musicPlayerState.getStop());
-			musicPlayerState.notifyObservers('theStopStateOff');
-			musicPlayerState.notifyObservers('thePlayStateOff');
-			musicPlayerState.notifyObservers('thePauseStateOff');
-			musicPlayerState.notifyObservers('theForwardStateOff');
-			musicPlayerState.notifyObservers('theRewindStateOff');
+			reset();
 		}
 		public function pause():void{
-			TweenMax.killAll(false, false, true);
+			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			currentTrackLoader.pauseSound();
 			musicPlayerState.setState(musicPlayerState.getPause());
+			reset();
 			musicPlayerState.notifyObservers('thePauseStateOn');
-			musicPlayerState.notifyObservers('thePlayStateOff');
-			musicPlayerState.notifyObservers('theForwardStateOff');
-			musicPlayerState.notifyObservers('theRewindStateOff');
-			musicPlayerState.notifyObservers('theStopStateOff');
 		}
-		public function next():void{
+		public function next ():void {
+			currentTrack = musicPlayerState.getCurrentTrack();
+			currentTrackLoader = LoaderMax.getLoader(currentTrack);
+			currentTrackLoader.gotoSoundTime(0);
+			currentTrackLoader.pauseSound();
+			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
+			musicPlayerState.setCurrentTrack(theCurrentPosition+=1);
+			currentTrack = musicPlayerState.getCurrentTrack();
+			currentTrackLoader = LoaderMax.getLoader(currentTrack);
+			currentTrackLoader.playSound();
+			musicPlayerState.setState(musicPlayerState.getPlay());
+			reset();
+			musicPlayerState.notifyObservers('thePlayStateOn');
 		}
-		public function back():void{
+		public function back ():void {
+			currentTrack = musicPlayerState.getCurrentTrack();
+			currentTrackLoader = LoaderMax.getLoader(currentTrack);
+			currentTrackLoader.gotoSoundTime(0);
+			currentTrackLoader.pauseSound();
+			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
+			musicPlayerState.setCurrentTrack(theCurrentPosition-=1);
+			currentTrack = musicPlayerState.getCurrentTrack();
+			currentTrackLoader = LoaderMax.getLoader(currentTrack);
+			currentTrackLoader.playSound();
+			musicPlayerState.setState(musicPlayerState.getPlay());
+			reset();
+			musicPlayerState.notifyObservers('thePlayStateOn');
 		}
 		public function forward():void{
-			TweenMax.killAll(false, false, true);
+			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			currentTrackLoader.playSound();
 			musicPlayerState.setState(musicPlayerState.getPlay());
+			reset();
 			musicPlayerState.notifyObservers('thePlayStateOn');
-			musicPlayerState.notifyObservers('theStopStateOff');
-			musicPlayerState.notifyObservers('thePauseStateOff');
-			musicPlayerState.notifyObservers('theForwardStateOff');
-			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		public function rewind():void{
-			TweenMax.killAll(false, false, true);
+			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			currentTrackLoader.playSound();
 			musicPlayerState.setState(musicPlayerState.getPlay());
+			reset();
 			musicPlayerState.notifyObservers('thePlayStateOn');
-			musicPlayerState.notifyObservers('theStopStateOff');
-			musicPlayerState.notifyObservers('thePauseStateOff');
-			musicPlayerState.notifyObservers('theForwardStateOff');
-			musicPlayerState.notifyObservers('theRewindStateOff');
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+		private function reset():void{
+			TweenMax.killAll(false, false, true);
+			musicPlayerState.notifyObservers('thePlayStateOff');
+			musicPlayerState.notifyObservers('theForwardStateOff');
+			musicPlayerState.notifyObservers('theRewindStateOff');
+			musicPlayerState.notifyObservers('theNextStateOff');
+			musicPlayerState.notifyObservers('theBackStateOff');
+			musicPlayerState.notifyObservers('theStopStateOff');
+			musicPlayerState.notifyObservers('thePauseStateOff');
+		}
+		private function onSoundComplete(event:Event):void{
+			currentTrackLoader.gotoSoundTime(0);
+			currentTrackLoader.pauseSound();
+			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
+			musicPlayerState.setCurrentTrack(theCurrentPosition+=1);
+			currentTrack = musicPlayerState.getCurrentTrack();
+			currentTrackLoader = LoaderMax.getLoader(currentTrack);
+			currentTrackLoader.playSound();
+			musicPlayerState.setState(musicPlayerState.getPlay());
+			currentTrackLoader.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
+			reset();
+			musicPlayerState.notifyObservers('thePlayStateOn');
+		}
 		/**
 		 * Method for returning mp3 title text.
 		 */
-		private function theTitleText ():void {
-			var theMP3Title:String = currentTrackLoader.vars.mp3Title;
-			trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title);
-			trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
-		}
+//		private function theTitleText ():void {
+//			currentTrackLoader = LoaderMax.getLoader(currentTrack);
+//			var theMP3Title:String = currentTrackLoader.vars.mp3Title;
+//			trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title);
+//			trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
+//		}
 	}	
 }
