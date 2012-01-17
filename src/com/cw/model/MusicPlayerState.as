@@ -22,19 +22,18 @@ package com.cw.model {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	import com.cw.control.observer.IObserver;
 	import com.cw.control.observer.ISubject;
-	import com.cw.control.observer.InvokedObserver;
-	import com.cw.model.states.IMusicPlayerState;
+	import com.cw.model.states.BackState;
 	import com.cw.model.states.ForwardState;
+	import com.cw.model.states.IMusicPlayerState;
 	import com.cw.model.states.InitialState;
-	import com.cw.model.states.PlayState;
+	import com.cw.model.states.NextState;
 	import com.cw.model.states.PauseState;
+	import com.cw.model.states.PlayState;
 	import com.cw.model.states.RewindState;
 	import com.cw.model.states.StopState;
 	import com.greensock.loading.LoaderMax;
-	import com.greensock.loading.XMLLoader;
-	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.MP3Loader;
-	import flash.events.Event;
+	
 	import flash.utils.Dictionary;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
@@ -45,6 +44,8 @@ package com.cw.model {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var observer:ISubject;
 		private var state:IMusicPlayerState;
+		private var nextState:IMusicPlayerState;
+		private var backState:IMusicPlayerState;
 		private var forwardState:IMusicPlayerState;
 		private var initialState:IMusicPlayerState;
 		private var pauseState:IMusicPlayerState;
@@ -52,8 +53,9 @@ package com.cw.model {
 		private var rewindState:IMusicPlayerState;
 		private var stopState:IMusicPlayerState;
 		private var mp3Dictionary:Dictionary;
-		private var currentTrack:String = 'track1';
+		private var currentTrack:String;
 		private var currentTrackLoader:MP3Loader;
+		private var currentPosition:int;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -63,17 +65,38 @@ package com.cw.model {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function initStateMachine ():void {
 			forwardState = new ForwardState(this);
+			nextState = new NextState(this);
+			backState = new BackState(this);
 			initialState = new InitialState(this);
 			pauseState = new PauseState(this);
 			playState = new PlayState(this);
 			stopState = new StopState(this);
 			rewindState = new RewindState(this);
 			setState(initialState);
-//			theTitleText();
 		}
 		public function setState (state:IMusicPlayerState):void {
 			trace(" ::::::::::: MusicPlayerState.setState(state) " + state);
 			this.state = state;
+		}
+		public function getCurrentPosition():int{
+			this.currentPosition = currentPosition;
+			return currentPosition
+		}
+		public function setCurrentTrack(currentPosition:int):void{
+			this.currentPosition = currentPosition;
+			var xmlQueue:LoaderMax = LoaderMax.getLoader("mp3Queue");
+			var xmlArray:Array = xmlQueue.content;
+			if(currentPosition > xmlArray.length){
+				this.currentPosition = 1;
+			}
+			if(currentPosition < 1){
+				this.currentPosition = xmlArray.length;
+			}
+		}
+		public function getCurrentTrack():String{
+			currentTrack = 'track' + currentPosition;
+			notifyObservers(currentTrack);
+			return currentTrack
 		}
 		/**
 		 * InvokedObserver interface, reference update, and subscription with
@@ -96,10 +119,12 @@ package com.cw.model {
 		public function removeObserver (observer:ISubject):void {
 		}
 		public function update (infoObject:String):void {
+			trace(" ::::::::::: MusicPlayerState.update(infoObject) "+infoObject);
+			
 			try {
 				this[infoObject]();
 			} catch(error:Error) {
-				trace(" ::::::::::: skip non methods!!!!! ");
+//				trace(" ::::::::::: skip non methods!!!!! ");
 			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -121,10 +146,14 @@ package com.cw.model {
 			trace(" ::::::::::: MusicPlayerState.getPause() ");
 			return this.pauseState;
 		}
-//		public function getNext ():IMusicPlayerState {
-//		}
-//		public function getBack ():IMusicPlayerState {
-//		}
+		public function getNext ():IMusicPlayerState {
+			trace(" ::::::::::: MusicPlayerState.getNext() ");
+			return this.nextState;
+		}
+		public function getBack ():IMusicPlayerState {
+			trace(" ::::::::::: MusicPlayerState.getBack() ");
+			return this.backState;
+		}
 		public function getForward ():IMusicPlayerState {
 			trace(" ::::::::::: MusicPlayerState.getForward() ");
 			return this.forwardState;
@@ -146,8 +175,12 @@ package com.cw.model {
 			state.pause();
 		}
 		private function next ():void {
+			trace(" ::::::::::: MusicPlayerState.next() ");
+			
+			state.next();
 		}
 		private function back ():void {
+			state.back();
 		}
 		private function forward ():void {
 			state.forward();
@@ -161,7 +194,8 @@ package com.cw.model {
 		private function theTitleText ():void {
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			var theMP3Title:String = currentTrackLoader.vars.mp3Title;
-			trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
+			trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title);
+			trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
 		}
 	}
 }
