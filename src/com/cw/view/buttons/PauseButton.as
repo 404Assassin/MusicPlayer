@@ -91,9 +91,8 @@ package com.cw.view.buttons {
 		private function buttonBuild ():void {
 			theButton = new Sprite();
 			theButton.addChild(thePauseButton);
-			thePauseButton.x = 0;
-			thePauseButton.y = 0;
 			addButtonEvents();
+			thePauseStateOff (null);
 		}
 		private function addButtonEvents ():void {
 			thePauseButton.buttonMode = true;

@@ -93,6 +93,7 @@ package com.cw.view.buttons{
 			theButton = new Sprite();
 			theButton.addChild(theRewindButton);
 			addButtonEvents();
+			theRewindStateOff(null);
 		}
 		private function addButtonEvents ():void {
 			theRewindButton.buttonMode = true;

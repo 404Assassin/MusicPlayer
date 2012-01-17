@@ -90,9 +90,8 @@ package com.cw.view.buttons {
 		private function buttonBuild ():void {
 			theButton = new Sprite();
 			theButton.addChild(thePlayButton);
-			thePlayButton.x = 0;
-			thePlayButton.y = 0;
 			addButtonEvents();
+			thePlayStateOff(null);
 		}
 		private function addButtonEvents ():void {
 			thePlayButton.buttonMode = true;

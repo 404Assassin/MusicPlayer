@@ -93,6 +93,7 @@ package com.cw.view.buttons{
 			theButton = new Sprite();
 			theButton.addChild(theForwardButton);
 			addButtonEvents();
+			theForwardStateOff (null);
 		}
 		private function addButtonEvents ():void {
 			theForwardButton.buttonMode = true;
