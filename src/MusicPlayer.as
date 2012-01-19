@@ -34,6 +34,7 @@ package {
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
+
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// SWF characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -41,10 +42,11 @@ package {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	public class MusicPlayer extends Sprite {
+	public class MusicPlayer extends Sprite implements ISubject{
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+		private var observer:ISubject;
 		private var uiInvokedObserver:ISubject = new InvokedObserver();
 		private var theMusicPlayerUIHolder:Sprite;
 		private var theMusicPlayerUI:MusicPlayerUI;
@@ -54,7 +56,7 @@ package {
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function MusicPlayer () {
-			trace(" ::::::::::: musicPlayer.musicPlayer() ");
+			addObserver (uiInvokedObserver);
 			initTheBuild();
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -72,18 +74,50 @@ package {
 		public function addMusicPlayerToStage ():void {
 			stage.addChild(theMusicPlayerUIHolder);
 		}
+		/**
+		 * InvokedObserver interface, reference update, and subscription with
+		 * updated observer and adding subscription with addObserver(this).
+		 */
+		public function addObserver (observer:ISubject):void {
+			this.observer = observer;
+			observer.addObserver(this);
+		}
+		/**
+		 * InvokedObserver notification
+		 */
+		public function notifyObservers (infoObject:String):void {
+			observer.notifyObservers(infoObject);
+		}
+		/**
+		 * remove an observer refrence from InvokedObserver
+		 */
+		public function removeObserver (observer:ISubject):void {
+		}
+		public function update (infoObject:String):void {
+			try {
+				this[infoObject]();
+			} catch(error:Error) {
+				//trace(" ::::::::::: skip non methods!!!!! ");
+			}
+		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private function initTheBuild ():void {
 			loadMp3();
-			addMusicPlayerUI();
-			addMusicPlayerToStage();
-			musicPlayerState();
 		}
 		private function loadMp3 ():void {
 			var theMP3LoadQueue:MP3LoadQueue = new MP3LoadQueue();
+			theMP3LoadQueue.addObserver(uiInvokedObserver);
 			theMP3LoadQueue.initMP3LoadQueue();
+		}
+		/**
+		 * Called via observer update.
+		 */		
+		private function externalContentLoaded():void{
+			musicPlayerState();
+			addMusicPlayerUI();
+			addMusicPlayerToStage();
 		}
 		/**
 		 * Add the Music Player user interface.
