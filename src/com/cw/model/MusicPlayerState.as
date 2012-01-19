@@ -33,7 +33,6 @@ package com.cw.model {
 	import com.cw.model.states.StopState;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
-	
 	import flash.utils.Dictionary;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
@@ -75,7 +74,6 @@ package com.cw.model {
 			setState(initialState);
 		}
 		public function setState (state:IMusicPlayerState):void {
-			trace(" ::::::::::: MusicPlayerState.setState(state) " + state);
 			this.state = state;
 		}
 		public function getCurrentPosition():int{
@@ -110,7 +108,6 @@ package com.cw.model {
 		 * InvokedObserver notification
 		 */
 		public function notifyObservers (infoObject:String):void {
-//			trace(" ::::::::::: MusicPlayerState.notifyObservers(infoObject)infoObject.name " + infoObject);
 			observer.notifyObservers(infoObject);
 		}
 		/**
@@ -119,8 +116,6 @@ package com.cw.model {
 		public function removeObserver (observer:ISubject):void {
 		}
 		public function update (infoObject:String):void {
-			trace(" ::::::::::: MusicPlayerState.update(infoObject) "+infoObject);
-			
 			try {
 				this[infoObject]();
 			} catch(error:Error) {
@@ -175,8 +170,6 @@ package com.cw.model {
 			state.pause();
 		}
 		private function next ():void {
-			trace(" ::::::::::: MusicPlayerState.next() ");
-			
 			state.next();
 		}
 		private function back ():void {
@@ -187,15 +180,6 @@ package com.cw.model {
 		}
 		private function rewind ():void {
 			state.rewind();
-		}
-		/**
-		 * Method for returning mp3 title text.
-		 */
-		private function theTitleText ():void {
-			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-			var theMP3Title:String = currentTrackLoader.vars.mp3Title;
-			trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title);
-			trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
 		}
 	}
 }
