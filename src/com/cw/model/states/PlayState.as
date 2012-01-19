@@ -80,9 +80,7 @@ package com.cw.model.states {
 			musicPlayerState.setCurrentTrack(theCurrentPosition += 1);
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-			trace(" ::::::::::: PlayState.next() "+currentTrackLoader);
 			currentTrackLoader.playSound();
-//			musicPlayerState.setState(musicPlayerState.getNext());
 			reset();
 			musicPlayerState.notifyObservers('thePlayStateOn');
 			currentTrackLoader.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
@@ -96,38 +94,12 @@ package com.cw.model.states {
 			musicPlayerState.setCurrentTrack(theCurrentPosition -= 1);
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-			trace(" ::::::::::: PlayState.back() "+currentTrackLoader);
-			
 			currentTrackLoader.playSound();
 			musicPlayerState.setState(musicPlayerState.getPlay());
 			reset();
 			musicPlayerState.notifyObservers('thePlayStateOn');
 			currentTrackLoader.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
 		}
-//		public function next ():void {
-//			currentTrackLoader.gotoSoundTime(0);
-//			currentTrackLoader.pauseSound();
-//			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
-//			musicPlayerState.setCurrentTrack(theCurrentPosition += 1);
-//			currentTrack = musicPlayerState.getCurrentTrack();
-//			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-//			currentTrackLoader.playSound();
-////			musicPlayerState.setState(musicPlayerState.getNext());
-//			reset();
-//			musicPlayerState.notifyObservers('thePlayStateOn');
-//		}
-//		public function back ():void {
-//			currentTrackLoader.gotoSoundTime(0);
-//			currentTrackLoader.pauseSound();
-//			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
-//			musicPlayerState.setCurrentTrack(theCurrentPosition -= 1);
-//			currentTrack = musicPlayerState.getCurrentTrack();
-//			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-//			currentTrackLoader.playSound();
-//			musicPlayerState.setState(musicPlayerState.getPlay());
-//			reset();
-//			musicPlayerState.notifyObservers('thePlayStateOn');
-//		}
 		public function forward ():void {
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);

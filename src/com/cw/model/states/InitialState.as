@@ -25,7 +25,6 @@ package com.cw.model.states {
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
 	import flash.events.Event;
-
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

@@ -66,15 +66,13 @@ package com.cw.view.buttons{
 		 * notify InvokedObservers
 		 */
 		public function notifyObservers (infoObject:String):void {
-			trace(" ::::::::::: NextButton.notifyObservers(infoObject) "+infoObject);
-			
 			observer.notifyObservers(infoObject);
 		}
 		/**
 		 * remove an observer refrence from InvokedObserver
 		 */
 		public function removeObserver (observer:ISubject):void {
-//			observer.removeObserver(this);
+			observer.removeObserver(this);
 		}
 		/**
 		 * receive notification from InvokedObserver
@@ -83,7 +81,7 @@ package com.cw.view.buttons{
 			try {
 				this[infoObject](infoObject);
 			} catch(error:Error) {
-				trace(" ::::::::::: skip non methods!!!!! ");
+//				trace(" ::::::::::: skip non methods!!!!! ");
 			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -97,7 +95,7 @@ package com.cw.view.buttons{
 		}
 		private function addButtonEvents ():void {
 			theNextButton.buttonMode = true;
-//			theNextButton.doubleClickEnabled = true;
+			theNextButton.doubleClickEnabled = true;
 			theNextButton.addEventListener(MouseEvent.MOUSE_UP, placementTargetUp);
 			theNextButton.addEventListener(MouseEvent.MOUSE_DOWN, placementTargetDown);
 			theNextButton.addEventListener(MouseEvent.MOUSE_OUT, placementTargetOut);
@@ -113,7 +111,6 @@ package com.cw.view.buttons{
 			buttonOnOffStates.buttonStatesInterface(theNextButton.iconMiddle, 'OffState');
 		}
 		private function placementTargetDown (downEvent:Event):void {
-			trace(" ::::::::::: NextButton.placementTargetDown(downEvent) ");
 			buttonStates.buttonStatesInterface(theNextButton.background, 'DownState');
 			buttonStates.buttonStatesInterface(theNextButton.iconBottom, 'DownState');
 			buttonOnOffStates.buttonStatesInterface(theNextButton.iconMiddle, 'OnState');
@@ -122,14 +119,12 @@ package com.cw.view.buttons{
 			buttonStates.buttonStatesInterface(theNextButton.background, 'UpState');
 			buttonOnOffStates.buttonStatesInterface(theNextButton.iconMiddle, 'OffState');
 			notifyObservers(theButtonState);
-			trace(" ::::::::::: NextButton.placementTargetUp(upEvent) "+theButtonState);
 		}
 		/**
 		 * button on/off states via observer update
 		 * @param infoObject
 		 */	
 		private function theNextStateOn (infoObject:String):void {
-			trace(" ::::::::::: NextButton.theNextStateOn(infoObject) ");
 			buttonOnOffStates.buttonStatesInterface(theNextButton.iconTop, 'OnState');
 		}
 		private function theNextStateOff (infoObject:String):void {

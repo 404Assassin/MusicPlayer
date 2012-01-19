@@ -82,7 +82,7 @@ package com.cw.view.buttons {
 			try {
 				this[infoObject](infoObject);
 			} catch(error:Error) {
-				trace(" ::::::::::: skip non methods!!!!! ");
+//				trace(" ::::::::::: skip non methods!!!!! ");
 			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -112,8 +112,6 @@ package com.cw.view.buttons {
 			buttonOnOffStates.buttonStatesInterface(theStopButton.iconMiddle, 'OffState');
 		}
 		private function placementTargetDown (downEvent:Event):void {
-			trace(" ::::::::::: StopButton.placementTargetDown(downEvent) ");
-			
 			buttonStates.buttonStatesInterface(theStopButton.background, 'DownState');
 			buttonStates.buttonStatesInterface(theStopButton.iconBottom, 'DownState');
 			buttonOnOffStates.buttonStatesInterface(theStopButton.iconMiddle, 'OnState');

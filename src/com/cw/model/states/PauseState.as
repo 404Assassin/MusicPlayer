@@ -49,7 +49,7 @@ package com.cw.model.states {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Public Interfaces
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		public function play():void{
+		public function play ():void {
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			currentTrackLoader.playSound();
@@ -81,7 +81,7 @@ package com.cw.model.states {
 			currentTrackLoader.gotoSoundTime(0);
 			currentTrackLoader.pauseSound();
 			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
-			musicPlayerState.setCurrentTrack(theCurrentPosition+=1);
+			musicPlayerState.setCurrentTrack(theCurrentPosition += 1);
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			reset();
@@ -93,7 +93,7 @@ package com.cw.model.states {
 			currentTrackLoader.gotoSoundTime(0);
 			currentTrackLoader.pauseSound();
 			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
-			musicPlayerState.setCurrentTrack(theCurrentPosition-=1);
+			musicPlayerState.setCurrentTrack(theCurrentPosition -= 1);
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			reset();
@@ -111,7 +111,7 @@ package com.cw.model.states {
 				currentTrackLoader.playSound();
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime + forwardStepParam);
 				musicPlayerState.setState(musicPlayerState.getForward());
-			reset();
+				reset();
 				musicPlayerState.notifyObservers('theForwardStateOn');
 				TweenMax.delayedCall(forwardLoopParam, forward);
 			}
@@ -132,7 +132,6 @@ package com.cw.model.states {
 				reset();
 				musicPlayerState.notifyObservers('thePlayStateOn');
 			} else if((currentTrackLoader.soundTime + rewindStepParam) > 0) {
-				trace(currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
 				currentTrackLoader.playSound();
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime - rewindStepParam);
 				musicPlayerState.setState(musicPlayerState.getRewind());
@@ -144,7 +143,7 @@ package com.cw.model.states {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		private function reset():void{
+		private function reset ():void {
 			TweenMax.killAll(false, false, true);
 			musicPlayerState.notifyObservers('thePlayStateOff');
 			musicPlayerState.notifyObservers('theForwardStateOff');
@@ -154,12 +153,12 @@ package com.cw.model.states {
 			musicPlayerState.notifyObservers('theStopStateOff');
 			musicPlayerState.notifyObservers('thePauseStateOff');
 		}
-		private function onSoundComplete(event:Event):void{
+		private function onSoundComplete (event:Event):void {
 			reset();
 			currentTrackLoader.gotoSoundTime(0);
 			currentTrackLoader.pauseSound();
 			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
-			musicPlayerState.setCurrentTrack(theCurrentPosition+=1);
+			musicPlayerState.setCurrentTrack(theCurrentPosition += 1);
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			currentTrackLoader.playSound();

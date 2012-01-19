@@ -82,7 +82,7 @@ package com.cw.view.buttons{
 			try {
 				this[infoObject](infoObject);
 			} catch(error:Error) {
-				trace(" ::::::::::: skip non methods!!!!! ");
+//				trace(" ::::::::::: skip non methods!!!!! ");
 			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

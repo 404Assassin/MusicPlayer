@@ -27,7 +27,6 @@ package com.cw.view.buttons {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -82,7 +81,7 @@ package com.cw.view.buttons {
 			try {
 				this[infoObject](infoObject);
 			} catch(error:Error) {
-				trace(" ::::::::::: skip non methods!!!!! ");
+//				trace(" ::::::::::: skip non methods!!!!! ");
 			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

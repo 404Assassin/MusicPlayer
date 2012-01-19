@@ -66,7 +66,6 @@ package com.cw.view.buttons{
 		 * notify InvokedObservers
 		 */
 		public function notifyObservers (infoObject:String):void {
-			trace(" ::::::::::: RewindButton.notifyObservers(infoObject) "+infoObject);
 			observer.notifyObservers(infoObject);
 		}
 		/**
@@ -79,11 +78,10 @@ package com.cw.view.buttons{
 		 * receive notification from InvokedObserver
 		 */
 		public function update (infoObject:String):void {
-			trace(" ::::::::::: RewindButton.update(infoObject) "+infoObject);
 			try {
 				this[infoObject](infoObject);
 			} catch(error:Error) {
-				trace(" ::::::::::: skip non methods!!!!! ");
+//				trace(" ::::::::::: skip non methods!!!!! ");
 			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
