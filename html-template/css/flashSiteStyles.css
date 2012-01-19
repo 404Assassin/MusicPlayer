@@ -1,0 +1,156 @@
+p{
+	font-family: Trebuchet MS;
+	font-size: 18;
+	font-style: none;
+	font-weight: normal;
+	color:#000000;
+	display: block;
+	leading: 0;
+	letter-spacing: 2;
+	margin-left:0;
+	margin-right:0;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0;
+}
+about{
+	font-family: Trebuchet MS;
+	font-size: 11;
+	font-style: none;
+	font-weight: normal;
+	color:#333333;
+	display: block;
+	leading: 0;
+	letter-spacing: 1;
+	margin-left:15;
+	margin-right:5;
+	text-align: left;
+	text-decoration: none;
+	text-indent: 0;
+}
+head{
+	font-family: Trebuchet MS;
+	font-size: 14;
+	font-style: none;
+	font-weight: normal;
+	color:#000000;
+	display: block;
+	leading: 0;
+	letter-spacing: 2;
+	margin-left:0;
+	margin-right:0;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0;
+}
+bttn{
+	font-family: Trebuchet MS;
+	font-size: 18;
+	font-style: none;
+	font-weight: normal;
+	color:#000000;
+	display: block;
+	leading: 0;
+	letter-spacing: 2;
+	margin-left:0;
+	margin-right:0;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0;
+}
+e{
+	font-family: Trebuchet MS;
+	font-size: 13;
+	font-style: none;
+	font-weight: normal;
+	color:#FFFFFF;
+	display: block;
+	leading: 0;
+	letter-spacing: 1;
+	margin-left:0;
+	margin-right:0;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0;
+}
+sm{
+	font-family: Trebuchet MS;
+	font-size: 10;
+	font-style: none;
+	font-weight: normal;
+	color:#FFFFFF;
+	display: block;
+	leading: 0;
+	letter-spacing: 1;
+	margin-left:0;
+	margin-right:0;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0;
+}
+cd{
+	font-family: Trebuchet MS Bold;
+	font-size: 28;
+	font-style: none;
+	font-weight: bold;
+	color:#000000;
+	display: block;
+	leading: 0;
+	letter-spacing: 1;
+	margin-left:0;
+	margin-right:0;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0;
+}
+cdi{
+	font-family: Trebuchet MS Italic;
+	font-size: 28;
+	font-style:italic;
+	font-weight: normal;
+	color:#FFFFFF;
+	display: block;
+	leading: 0;
+	letter-spacing: 0;
+	margin-left:0;
+	margin-right:0;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0;
+}
+em{
+	font-family: Trebuchet MS Bold Italic;
+	font-size:28;
+	font-style: italic;
+	font-weight: bold;
+	color:#00CCFF;
+	display: block;
+	leading: 0;
+	letter-spacing: 0;
+	margin-left:0;
+	margin-right:0;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0;
+}
+mp3{
+	font-family: Trebuchet MS;
+	font-size: 13;
+	font-style: none;
+	font-weight: normal;
+	color:#000000;
+	display: block;
+	leading: 0;
+	letter-spacing: 1;
+	margin-left:3;
+	margin-right:0;
+	text-align: left;
+	text-decoration: none;
+	text-indent: 0;
+}
+.brown{
+	color:#321919;
+	font-weight:bold;
+	font-style:italic;
+	text-decoration: underline;
+}
