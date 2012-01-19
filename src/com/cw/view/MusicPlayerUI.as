@@ -20,9 +20,7 @@ package com.cw.view {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	import com.cw.control.observer.IObserver;
 	import com.cw.control.observer.ISubject;
-	import com.cw.control.observer.InvokedObserver;
 	import com.cw.model.MusicPlayerState;
 	import com.cw.view.buttons.BackButton;
 	import com.cw.view.buttons.ForwardButton;
@@ -32,18 +30,11 @@ package com.cw.view {
 	import com.cw.view.buttons.RewindButton;
 	import com.cw.view.buttons.StopButton;
 	import com.cw.view.text.CDynamicTextField;
-	import com.cw.view.text.ICDynamicTextField;
-	import com.cw.view.tweenStates.ButtonStates;
+	import com.greensock.loading.LoaderMax;
+	import com.greensock.loading.MP3Loader;
+	import com.greensock.TweenMax;
 	
-	import flash.display.Loader;
-	import flash.display.MovieClip;
 	import flash.display.Sprite;
-	import flash.display.Stage;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.text.TextField;
 
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
@@ -65,6 +56,10 @@ package com.cw.view {
 		private var theCDynamicTextField:CDynamicTextField;
 		private var theButtonState:String;
 		private var buttonHolder:Sprite = new Sprite();
+		private var musicPlayerState:MusicPlayerState;
+		private var currentTrack:String;
+		private var currentTrackLoader:MP3Loader;
+		private var theTextField:Sprite;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -99,6 +94,7 @@ package com.cw.view {
 		}
 		public function update (infoObject:String):void {
 			try {
+				theTitleText(infoObject);
 				this[infoObject]();
 			} catch(error:Error) {
 				//trace(" ::::::::::: skip non methods!!!!! ");
@@ -117,7 +113,7 @@ package com.cw.view {
 			playButton(theMusicPlayerUI);
 			nextButton(theMusicPlayerUI);
 			forwardButton(theMusicPlayerUI);
-			titleText ('the title text');
+			titleText();
 		}
 		private function rewindButton (theMusicPlayerUI:Sprite):void {
 			theMusicPlayerUI.addChild(buttonHolder);
@@ -189,13 +185,37 @@ package com.cw.view {
 			forwardButton.x = 156;
 			forwardButton.y = 150;
 		}
-		private function titleText (theTitleText:String):void {
+		/**
+		 * Method for creating and returning the mp3 title text field.
+		 */
+		private function titleText ():void {
+			theMusicPlayerUI.addChild(buttonHolder);
 			theCDynamicTextField = new CDynamicTextField();
-			theCDynamicTextField.textFieldInterface(theTitleText, 300, 22, false, 0xffffff, false, false);
-			var theTextField:Sprite = theCDynamicTextField.getTheTextField();
-			theMusicPlayerUI.addChild(theTextField);
+			theCDynamicTextField.textFieldInterface('<mp3>mp3s loaded</mp3>', 300, 22, false, 0xFFFFFF, false, false);
+			theTextField = theCDynamicTextField.getTheTextField();
+			buttonHolder.addChild(theTextField);
 			theTextField.x = 170;
 			theTextField.y = 139;
+		}
+		/**
+		 * Method for updateing the mp3 title text field.
+		 */
+		private function theTitleText (currentTrack:String):void {
+			this.currentTrack = currentTrack;
+			if(currentTrack.substring(0, 5) == 'track') {
+				TweenMax.to (theTextField, .1, {alpha:0});
+				currentTrackLoader = LoaderMax.getLoader(currentTrack);
+				var theMP3Title:String = currentTrackLoader.vars.mp3Title;
+				var rawMP3Title:XML = currentTrackLoader.vars.rawXML;
+//				theCDynamicTextField.updateTheTextField('<mp3>'+theMP3Title+'</mp3>')
+				theCDynamicTextField.updateTheTextField(rawMP3Title.mp3Title);
+				TweenMax.to (theTextField, .5, {alpha:1});
+				trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title + '\n' + currentTrack);
+//				trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
+//				trace(xml);
+//				
+//				trace(xml.mp3Title);
+			}
 		}
 	}
 }
