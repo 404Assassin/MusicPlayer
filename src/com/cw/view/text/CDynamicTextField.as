@@ -32,8 +32,8 @@ package com.cw.view.text{
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var theTextFieldHolder:Sprite;
 		private var theTextFieldBGHolder:Sprite;
-		private var textHorizontalBuffer:uint = 20;
-		private var textVerticalBuffer:uint = 20;
+		private var textHorizontalBuffer:uint = 2;
+		private var textVerticalBuffer:uint = 2;
 		private var textHorizontalOffset:Number = 4;
 		private var textVerticalOffset:Number = 2;
 		private var textContent:String
@@ -47,6 +47,7 @@ package com.cw.view.text{
 		private var yPlacement:int;
 		private var dynamicButtonObserver:InvokedObserver
 		private var eventTarget:Object;
+		private var textField:TextField;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -74,6 +75,10 @@ package com.cw.view.text{
 		public function getTheTextField():Sprite{
 			return theTextFieldHolder
 		}
+		public function updateTheTextField(textContent:String):void{
+			this.textContent = textContent;
+			textField.htmlText = textContent;
+		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -85,13 +90,13 @@ package com.cw.view.text{
 			theTextFieldBGHolder = new Sprite();
 			var theShapeCreator:CreateShape = new CreateShape();
 			theShapeCreator.draw(CreateShape.SQUARE_FILLED, theTextFieldBGHolder, 0, 0, 20, 20)
-			TweenMax.to (theTextFieldBGHolder, 0, {alpha:.5, tint:0xFFFFFF});
+			TweenMax.to (theTextFieldBGHolder, 0, {alpha:.25, tint:0xFFFFFF});
 			//theTextFieldBGHolder.filters = [new DropShadowFilter(2, 45, 0x000000, 1, 2, 2, 1, 2, true, true, false)];
 			theTextFieldHolder.addChild(theTextFieldBGHolder);
 			addTextFieldText();
 		}
 		private function addTextFieldText():void{
-			var textField:TextField = new TextField();
+			textField = new TextField();
 			textField.embedFonts = false;
 			textField.background = textFieldBackground;
 			textField.backgroundColor = textFieldBackgroundColor;
@@ -101,10 +106,10 @@ package com.cw.view.text{
 			textField.wordWrap = textFieldWordWrap;
 			textField.autoSize = TextFieldAutoSize.NONE;
 			textField.antiAliasType = AntiAliasType.ADVANCED; 
-			textField.styleSheet = LoaderMax.getContent("flashStyleSheet");;
+			textField.styleSheet = LoaderMax.getContent("flashStyleSheet");
 			textField.htmlText = textContent;
 			theTextFieldHolder.addChild(textField);
-			TweenMax.to(textField, 0, {dropShadowFilter:{color:0x000000, alpha:.5, blurX:5, blurY:5, distance:5}});
+//			TweenMax.to(textField, 0, {dropShadowFilter:{color:0x000000, alpha:.5, blurX:5, blurY:5, distance:5}});
 			resizeTextFieldBG(textField);
 		}
 		private function resizeTextFieldBG(textField:TextField):void{
