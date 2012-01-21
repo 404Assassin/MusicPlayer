@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mp3Data>
 	<!--MP3 assets list-->
-	<LoaderMax name="mp3Queue" maxConnections="2" prependURLs="./mp3/" load="true">
-		<MP3Loader name="track1" mp3Title="Tomorrow is Monday" url="tomarrow is monday mix.mp3" autoPlay="false"><mp3Title><![CDATA[<mp3>Tomorrow is Monday</mp3>]]></mp3Title></MP3Loader>
+	<LoaderMax name="mp3Queue" maxConnections="1" prependURLs="./mp3/" load="true">
+		<MP3Loader name="track1" mp3Title="Tomorrow is Monday" url="tomarrow is monday mix.mp3" autoPlay="false"><mp3Title><![CDATA[<mp3><b>Tomorrow</b> is Monday</mp3>]]></mp3Title></MP3Loader>
 		<MP3Loader name="track2" mp3Title="New Vile" url="New Vile mix 1.mp3" autoPlay="false"><mp3Title><![CDATA[<mp3>New Vile</mp3>]]></mp3Title></MP3Loader>
 		<MP3Loader name="track3" mp3Title="Circadian Cycle" url="Circadian Cycle mix0.mp3" autoPlay="false"><mp3Title><![CDATA[<mp3>Circadian Cycle</mp3>]]></mp3Title></MP3Loader>
 		<MP3Loader name="track4" mp3Title="Circadian Rythm" url="Circadian Rythm mix.mp3" autoPlay="false"><mp3Title><![CDATA[<mp3>Circadian Rythm</mp3>]]></mp3Title></MP3Loader>
