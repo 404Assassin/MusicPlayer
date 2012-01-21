@@ -1,12 +1,12 @@
 p{
 	font-family: Trebuchet MS;
-	font-size: 18;
-	font-style: none;
+	font-size:18pt;
+	font-style: ;
 	font-weight: normal;
 	color:#000000;
 	display: block;
 	leading: 0;
-	letter-spacing: 2;
+	letter-spacing: 2pt;
 	margin-left:0;
 	margin-right:0;
 	text-align: center;
@@ -15,28 +15,28 @@ p{
 }
 about{
 	font-family: Trebuchet MS;
-	font-size: 11;
-	font-style: none;
+	font-size: 11pt;
+	font-style: ;
 	font-weight: normal;
 	color:#333333;
 	display: block;
 	leading: 0;
-	letter-spacing: 1;
-	margin-left:15;
-	margin-right:5;
+	letter-spacing: 1pt;
+	margin-left:15pt;
+	margin-right:5pt;
 	text-align: left;
 	text-decoration: none;
 	text-indent: 0;
 }
 head{
 	font-family: Trebuchet MS;
-	font-size: 14;
-	font-style: none;
+	font-size: 14pt;
+	font-style: ;
 	font-weight: normal;
 	color:#000000;
 	display: block;
 	leading: 0;
-	letter-spacing: 2;
+	letter-spacing: 2pt;
 	margin-left:0;
 	margin-right:0;
 	text-align: center;
@@ -45,13 +45,13 @@ head{
 }
 bttn{
 	font-family: Trebuchet MS;
-	font-size: 18;
-	font-style: none;
+	font-size: 18pt;
+	font-style: ;
 	font-weight: normal;
 	color:#000000;
 	display: block;
 	leading: 0;
-	letter-spacing: 2;
+	letter-spacing: 2pt;
 	margin-left:0;
 	margin-right:0;
 	text-align: center;
@@ -60,13 +60,13 @@ bttn{
 }
 e{
 	font-family: Trebuchet MS;
-	font-size: 13;
-	font-style: none;
+	font-size: 13pt;
+	font-style: ;
 	font-weight: normal;
 	color:#FFFFFF;
 	display: block;
 	leading: 0;
-	letter-spacing: 1;
+	letter-spacing: 1pt;
 	margin-left:0;
 	margin-right:0;
 	text-align: center;
@@ -75,13 +75,13 @@ e{
 }
 sm{
 	font-family: Trebuchet MS;
-	font-size: 10;
-	font-style: none;
+	font-size: 10pt;
+	font-style: ;
 	font-weight: normal;
 	color:#FFFFFF;
 	display: block;
 	leading: 0;
-	letter-spacing: 1;
+	letter-spacing: 1pt;
 	margin-left:0;
 	margin-right:0;
 	text-align: center;
@@ -90,13 +90,13 @@ sm{
 }
 cd{
 	font-family: Trebuchet MS Bold;
-	font-size: 28;
-	font-style: none;
+	font-size: 28pt;
+	font-style: ;
 	font-weight: bold;
 	color:#000000;
 	display: block;
 	leading: 0;
-	letter-spacing: 1;
+	letter-spacing: 1pt;
 	margin-left:0;
 	margin-right:0;
 	text-align: center;
@@ -105,7 +105,7 @@ cd{
 }
 cdi{
 	font-family: Trebuchet MS Italic;
-	font-size: 28;
+	font-size: 28pt;
 	font-style:italic;
 	font-weight: normal;
 	color:#FFFFFF;
@@ -120,7 +120,7 @@ cdi{
 }
 em{
 	font-family: Trebuchet MS Bold Italic;
-	font-size:28;
+	font-size:28pt;
 	font-style: italic;
 	font-weight: bold;
 	color:#00CCFF;
@@ -135,14 +135,14 @@ em{
 }
 mp3{
 	font-family: Trebuchet MS;
-	font-size: 13;
-	font-style: none;
+	font-size: 13pt;
+	font-style: ;
 	font-weight: normal;
 	color:#000000;
 	display: block;
 	leading: 0;
-	letter-spacing: 1;
-	margin-left:3;
+	letter-spacing: 1pt;
+	margin-left:3pt;
 	margin-right:0;
 	text-align: left;
 	text-decoration: none;
