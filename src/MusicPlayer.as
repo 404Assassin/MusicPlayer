@@ -25,11 +25,13 @@ package {
 	import com.cw.control.observer.InvokedObserver;
 	import com.cw.model.MP3LoadQueue;
 	import com.cw.model.MusicPlayerState;
+	import com.cw.utilities.preloaders.OneBarPreloader;
 	import com.cw.view.MusicPlayerUI;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
 	import com.greensock.loading.XMLLoader;
+	
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
@@ -51,6 +53,7 @@ package {
 		private var theMusicPlayerUIHolder:Sprite;
 		private var theMusicPlayerUI:MusicPlayerUI;
 		private var theMusicPlayerState:MusicPlayerState;
+		private var theOneBarPreloader:OneBarPreloader;
 //		private var sound:MP3Loader;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
@@ -92,6 +95,8 @@ package {
 		 * remove an observer refrence from InvokedObserver
 		 */
 		public function removeObserver (observer:ISubject):void {
+			this.observer = observer;
+			observer.removeObserver(this);
 		}
 		public function update (infoObject:String):void {
 			try {
@@ -106,18 +111,30 @@ package {
 		private function initTheBuild ():void {
 			loadMp3();
 		}
+		private function preloader():void{
+			theOneBarPreloader = new OneBarPreloader();
+			theOneBarPreloader.initProgressBar();
+			
+		}
 		private function loadMp3 ():void {
 			var theMP3LoadQueue:MP3LoadQueue = new MP3LoadQueue();
 			theMP3LoadQueue.addObserver(uiInvokedObserver);
 			theMP3LoadQueue.initMP3LoadQueue();
 		}
+		private function firstTractLoading():void{
+			musicPlayerState();
+			addMusicPlayerUI();
+			addMusicPlayerToStage();
+		}
+		/**
+		 * Called via observer update.
+		 */		
+		private function firstTractLoaded():void{
+		}
 		/**
 		 * Called via observer update.
 		 */		
 		private function externalContentLoaded():void{
-			musicPlayerState();
-			addMusicPlayerUI();
-			addMusicPlayerToStage();
 		}
 		/**
 		 * Add the Music Player user interface.
