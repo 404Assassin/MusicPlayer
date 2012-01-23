@@ -22,6 +22,7 @@ package com.cw.view {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	import com.cw.control.observer.ISubject;
 	import com.cw.model.MusicPlayerState;
+	import com.cw.utilities.preloaders.OneBarPreloader;
 	import com.cw.view.buttons.BackButton;
 	import com.cw.view.buttons.ForwardButton;
 	import com.cw.view.buttons.NextButton;
@@ -30,9 +31,10 @@ package com.cw.view {
 	import com.cw.view.buttons.RewindButton;
 	import com.cw.view.buttons.StopButton;
 	import com.cw.view.text.CDynamicTextField;
+	import com.cw.view.text.TitleText;
+	import com.greensock.TweenMax;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
-	import com.greensock.TweenMax;
 	
 	import flash.display.Sprite;
 
@@ -52,6 +54,7 @@ package com.cw.view {
 		private var thePauseButton:bttn_pause = new bttn_pause();
 		private var thePlayButton:bttn_play = new bttn_play();
 		private var theNextButton:bttn_next = new bttn_next();
+//		private var theTitleText:TitleText;
 		private var theCDynamicTextField:CDynamicTextField;
 		private var theButtonState:String;
 		private var buttonHolder:Sprite = new Sprite();
@@ -59,6 +62,7 @@ package com.cw.view {
 		private var currentTrack:String;
 		private var currentTrackLoader:MP3Loader;
 		private var theTextField:Sprite;
+		private var theOneBarPreloader:OneBarPreloader;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -70,7 +74,7 @@ package com.cw.view {
 			addInterface();
 		}
 		public function getMusicPlayerUI ():Sprite {
-			return theMusicPlayerUI
+			return theMusicPlayerUI;
 		}
 		/**
 		 * InvokedObserver interface, reference update, and subscription with
@@ -90,10 +94,11 @@ package com.cw.view {
 		 * remove an observer refrence from InvokedObserver
 		 */
 		public function removeObserver (observer:ISubject):void {
+			this.observer = observer;
+			observer.removeObserver(this);
 		}
 		public function update (infoObject:String):void {
 			try {
-				theTitleText(infoObject);
 				this[infoObject]();
 			} catch(error:Error) {
 				//trace(" ::::::::::: skip non methods!!!!! ");
@@ -104,6 +109,7 @@ package com.cw.view {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private function addInterface ():void {
 			theMusicPlayerUI = new Sprite();
+			preloader ();
 			rewindButton(theMusicPlayerUI);
 			backButton(theMusicPlayerUI);
 			stopButton(theMusicPlayerUI);
@@ -111,8 +117,20 @@ package com.cw.view {
 			playButton(theMusicPlayerUI);
 			nextButton(theMusicPlayerUI);
 			forwardButton(theMusicPlayerUI);
-			titleText();
+			titleText(theMusicPlayerUI);
 		}
+		private function preloader ():void {
+			theOneBarPreloader = new OneBarPreloader();
+			theOneBarPreloader.addObserver(observer);
+			theOneBarPreloader.initProgressBar();
+			var preloadBar:Sprite = theOneBarPreloader.getProgressBar();
+			theMusicPlayerUI.addChild(preloadBar);
+			preloadBar.x = 171;
+			preloadBar.y = 140;
+		}
+		/**
+		 * Methods for creating and returning the player buttons.
+		 */
 		private function rewindButton (theMusicPlayerUI:Sprite):void {
 			theMusicPlayerUI.addChild(buttonHolder);
 			var theRewindButton:RewindButton = new RewindButton();
@@ -186,32 +204,15 @@ package com.cw.view {
 		/**
 		 * Method for creating and returning the mp3 title text field.
 		 */
-		private function titleText ():void {
+		private function titleText (theMusicPlayerUI:Sprite):void {
 			theMusicPlayerUI.addChild(buttonHolder);
-			theCDynamicTextField = new CDynamicTextField();
-			theCDynamicTextField.textFieldInterface('<mp3>loading tract 1</mp3>', 300, 22, false, 0xFFFFFF, false, false);
-			theTextField = theCDynamicTextField.getTheTextField();
-			buttonHolder.addChild(theTextField);
-			theTextField.x = 170;
-			theTextField.y = 139;
-		}
-		private function firstTractLoaded():void{
-			trace(" ::::::::::: MusicPlayerUI.firstTractLoaded() ");
-		}
-		/**
-		 * Method for updateing the mp3 title text field.
-		 */
-		private function theTitleText (currentTrack:String):void {
-			this.currentTrack = currentTrack;
-			if(currentTrack.substring(0, 5) == 'track') {
-				TweenMax.to (theTextField, .1, {alpha:0});
-				currentTrackLoader = LoaderMax.getLoader(currentTrack);
-				var theMP3Title:String = currentTrackLoader.vars.mp3Title;
-				var rawMP3Title:XML = currentTrackLoader.vars.rawXML;
-				theCDynamicTextField.updateTheTextField(rawMP3Title.mp3Title);
-				TweenMax.to (theTextField, .5, {alpha:1});
-				trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title + '\n' + currentTrack);
-			}
+			var theTitleText:TitleText = new TitleText()
+			theTitleText.addObserver(observer);
+			theTitleText.initTheTitleText();
+			var titleText:Sprite = theTitleText.getTheTitleText()
+			buttonHolder.addChild(titleText);
+			titleText.x = 170;
+			titleText.y = 139;
 		}
 	}
 }
