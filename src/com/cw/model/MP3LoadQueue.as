@@ -43,6 +43,7 @@ package com.cw.model {
 		private var loadSWFFonts:FontSWFLoader = new FontSWFLoader();
 		private var observer:ISubject;
 		private var queue1:LoaderMax;
+		private var currentAmount:Number = 0;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -74,10 +75,8 @@ package com.cw.model {
 		public function removeObserver (observer:ISubject):void {
 		}
 		public function update (infoObject:String):void {
-			try {
+			if(hasOwnProperty(infoObject)){
 				this[infoObject]();
-			} catch(error:Error) {
-				//trace(" ::::::::::: skip non methods!!!!! ");
 			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -92,23 +91,29 @@ package com.cw.model {
 		}
 		private function loadMp3 ():void {
 			LoaderMax.activate([MP3Loader, CSSLoader, XMLLoader]);
-			queue1 = new LoaderMax({name: "mainQueue", onChildOpen: onChildOpenHandler, onProgress: progressHandler, onComplete: completeHandler, onChildProgress: onChildProgressHandler, onChildComplete: onChildCompleteHandler, onError: errorHandler});
-			queue1.append(new CSSLoader("./css/flashSiteStyles.css", {name: "flashStyleSheet", alternateURL: "http://worleydev.com/css/flashSiteStyles.css"}));
+			queue1 = new LoaderMax({name:"mainQueue", onChildOpen:onChildOpenHandler, onProgress:progressHandler, onComplete:completeHandler, onChildProgress:onChildProgressHandler, onChildComplete:onChildCompleteHandler, onError:errorHandler, auditSize:true});
+			queue1.append(new CSSLoader("./css/flashSiteStyles.css", {name:"flashStyleSheet", alternateURL:"http://worleydev.com/css/flashSiteStyles.css"}));
 			queue1.append(new XMLLoader("./xml/mp3List.xml", {}));
 			queue1.load();
 		}
 		private function onChildOpenHandler (event:LoaderEvent):void {
-			trace(" ::::::::::: MP3LoadQueue.onChildOpenHandler() ");
 			if(event.target.name == 'track1') {
-				trace(" ::::::::::: MP3LoadQueue.onChildOpenHandler()  if(event.target.name =='track1')");
 				notifyObservers('firstTractLoading');
 			}
 		}
 		private function progressHandler (event:LoaderEvent):void {
-			trace("progress: " + event.target.progress);
+			trace("main progress: " + event.target.progress);
 		}
 		private function onChildProgressHandler (event:LoaderEvent):void {
-			trace("child progress: " + event.target.progress);
+			if(currentAmount == 1) {
+				currentAmount = 0;
+			}
+			trace("child progress current amounts: " + '\n' + currentAmount + '\n' + event.target.progress + '\n' + event.target.name.substring(0, 5));
+			if((event.target.name.substring(0, 5) == 'track') && (currentAmount < event.target.progress)) {
+//				trace("child progress: " + event.target.progress);
+				currentAmount = event.target.progress
+				notifyObservers('childProgress' + event.target.progress as String);
+			}
 		}
 		private function completeHandler (event:LoaderEvent):void {
 			var mp3Array:Array;
@@ -117,9 +122,8 @@ package com.cw.model {
 //			notifyObservers('externalContentLoaded');
 		}
 		private function onChildCompleteHandler (event:LoaderEvent):void {
-			trace(" ::::::::::: MP3LoadQueue.completeHandler(event) " + '\n' + event.target.name + '\n' /* + mp3Array + '\n' + mp3Array.length*/);
+//			trace(" ::::::::::: MP3LoadQueue.completeHandler(event) " + '\n' + event.target.name + '\n' /* + mp3Array + '\n' + mp3Array.length*/);
 			if(event.target.name == 'track1') {
-				trace(" ::::::::::: MP3LoadQueue.onChildCompleteHandler(event) if(event.target.name =='track1')");
 				notifyObservers('firstTractLoaded');
 				notifyObservers('play');
 			}
