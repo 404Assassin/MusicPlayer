@@ -98,31 +98,6 @@ package com.cw.model.states {
 			musicPlayerState.notifyObservers('thePlayStateOn');
 			currentTrackLoader.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
 		}
-//		public function next ():void {
-//			currentTrackLoader.gotoSoundTime(0);
-//			currentTrackLoader.pauseSound();
-//			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
-//			musicPlayerState.setCurrentTrack(theCurrentPosition+=1);
-//			currentTrack = musicPlayerState.getCurrentTrack();
-//			trace(" ::::::::::: InitialState.next() ");
-//			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-//			currentTrackLoader.playSound();
-//			musicPlayerState.setState(musicPlayerState.getPlay());
-//			reset();
-//			musicPlayerState.notifyObservers('thePlayStateOn');
-//		}
-//		public function back ():void {
-//			currentTrackLoader.gotoSoundTime(0);
-//			currentTrackLoader.pauseSound();
-//			var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
-//			musicPlayerState.setCurrentTrack(theCurrentPosition-=1);
-//			currentTrack = musicPlayerState.getCurrentTrack();
-//			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-//			currentTrackLoader.playSound();
-//			musicPlayerState.setState(musicPlayerState.getPlay());
-//			reset();
-//			musicPlayerState.notifyObservers('thePlayStateOn');
-//		}
 		public function forward ():void {
 			musicPlayerState.setCurrentTrack(setInitialTrack);
 			currentTrack = musicPlayerState.getCurrentTrack();
