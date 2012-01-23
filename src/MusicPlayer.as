@@ -31,7 +31,6 @@ package {
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
 	import com.greensock.loading.XMLLoader;
-	
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
@@ -44,22 +43,21 @@ package {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	public class MusicPlayer extends Sprite implements ISubject{
+	public class MusicPlayer extends Sprite implements ISubject {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var observer:ISubject;
 		private var uiInvokedObserver:ISubject = new InvokedObserver();
-		private var theMusicPlayerUIHolder:Sprite;
+		private var theMusicPlayerUIHolder:Sprite = new Sprite();
 		private var theMusicPlayerUI:MusicPlayerUI;
 		private var theMusicPlayerState:MusicPlayerState;
 		private var theOneBarPreloader:OneBarPreloader;
-//		private var sound:MP3Loader;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function MusicPlayer () {
-			addObserver (uiInvokedObserver);
+			addObserver(uiInvokedObserver);
 			initTheBuild();
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -98,12 +96,30 @@ package {
 			this.observer = observer;
 			observer.removeObserver(this);
 		}
+		/**
+		 * 'hasOwnProperty' is slightly slower then 'in' on positive look ups
+		 * but is slightly faster the 'in' with negatives. Since there are many
+		 * possible negative results I'm going with 'hasOwnProperty'. Both
+		 * 'hasOwnProperty' and 'in' are many times faster then a try-catch statement.
+		 */
 		public function update (infoObject:String):void {
-			try {
+			if(hasOwnProperty(infoObject)) {
 				this[infoObject]();
-			} catch(error:Error) {
-				//trace(" ::::::::::: skip non methods!!!!! ");
-			}
+			};
+		}
+		public function firstTractLoading ():void {
+			musicPlayerState();
+			addMusicPlayerUI();
+		}
+		/**
+		 * Called via observer update.
+		 */
+		public function firstTractLoaded ():void {
+		}
+		/**
+		 * Called via observer update.
+		 */
+		public function externalContentLoaded ():void {
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
@@ -111,60 +127,30 @@ package {
 		private function initTheBuild ():void {
 			loadMp3();
 		}
-		private function preloader():void{
-			theOneBarPreloader = new OneBarPreloader();
-			theOneBarPreloader.initProgressBar();
-			
-		}
 		private function loadMp3 ():void {
 			var theMP3LoadQueue:MP3LoadQueue = new MP3LoadQueue();
 			theMP3LoadQueue.addObserver(uiInvokedObserver);
 			theMP3LoadQueue.initMP3LoadQueue();
 		}
-		private function firstTractLoading():void{
-			musicPlayerState();
-			addMusicPlayerUI();
-			addMusicPlayerToStage();
-		}
-		/**
-		 * Called via observer update.
-		 */		
-		private function firstTractLoaded():void{
-		}
-		/**
-		 * Called via observer update.
-		 */		
-		private function externalContentLoaded():void{
-		}
 		/**
 		 * Add the Music Player user interface.
+		 * Add the Music Player user interface observer.
 		 */
 		private function addMusicPlayerUI ():void {
 			theMusicPlayerUI = new MusicPlayerUI();
-			addMusicPlayerUIObservers(theMusicPlayerUI);
+			theMusicPlayerUI.addObserver(uiInvokedObserver);
 			theMusicPlayerUI.buildMusicPlayerUI();
 			theMusicPlayerUIHolder = theMusicPlayerUI.getMusicPlayerUI();
+			addMusicPlayerToStage();
 		}
 		/**
 		 * Envoke the Music Player state controler.
+		 * Add the State Machine observer.
 		 */
 		private function musicPlayerState ():void {
 			theMusicPlayerState = new MusicPlayerState();
-			addStateMachineObservers(theMusicPlayerState);
-			theMusicPlayerState.initStateMachine();
-			uiInvokedObserver
-		}
-		/**
-		 * Add the Music Player user interface observer.
-		 */
-		private function addMusicPlayerUIObservers (theMusicPlayerUI:MusicPlayerUI):void {
-			theMusicPlayerUI.addObserver(uiInvokedObserver);
-		}
-		/**
-		 * Add the State Machine observer.
-		 */
-		private function addStateMachineObservers (theMusicPlayerState:MusicPlayerState):void {
 			theMusicPlayerState.addObserver(uiInvokedObserver);
+			theMusicPlayerState.initStateMachine();
 		}
 	}
 }
