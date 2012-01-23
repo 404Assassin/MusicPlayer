@@ -41,7 +41,7 @@ package com.cw.utilities.loaders{
 		/**
 		 * 1. create a .fla doc and in the library create a new libaray font 
 		 * class.
-		 * 2. select the font you wish to use, embbed the charecters you wish 
+		 * 2. select the font you wish to use, embbed the characters you wish 
 		 * to use.
 		 * 3. select the ActionScript tab and export for ActionScript. Make sure 
 		 * your class name does not match the font name as listed in the font
