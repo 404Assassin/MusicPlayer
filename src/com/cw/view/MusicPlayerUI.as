@@ -45,7 +45,6 @@ package com.cw.view {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var observer:ISubject;
 		private var theMusicPlayerUI:Sprite
-		private var theMusicPlayer:musicPlayerInterface = new musicPlayerInterface();
 		private var theBackButton:bttn_back = new bttn_back();
 		private var theForwardButton:bttn_forward = new bttn_forward();
 		private var theRewindButton:bttn_rewind = new bttn_rewind();
@@ -105,7 +104,6 @@ package com.cw.view {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private function addInterface ():void {
 			theMusicPlayerUI = new Sprite();
-			theMusicPlayerUI.addChild(theMusicPlayer);
 			rewindButton(theMusicPlayerUI);
 			backButton(theMusicPlayerUI);
 			stopButton(theMusicPlayerUI);
@@ -191,11 +189,14 @@ package com.cw.view {
 		private function titleText ():void {
 			theMusicPlayerUI.addChild(buttonHolder);
 			theCDynamicTextField = new CDynamicTextField();
-			theCDynamicTextField.textFieldInterface('<mp3>mp3s loaded</mp3>', 300, 22, false, 0xFFFFFF, false, false);
+			theCDynamicTextField.textFieldInterface('<mp3>loading tract 1</mp3>', 300, 22, false, 0xFFFFFF, false, false);
 			theTextField = theCDynamicTextField.getTheTextField();
 			buttonHolder.addChild(theTextField);
 			theTextField.x = 170;
 			theTextField.y = 139;
+		}
+		private function firstTractLoaded():void{
+			trace(" ::::::::::: MusicPlayerUI.firstTractLoaded() ");
 		}
 		/**
 		 * Method for updateing the mp3 title text field.
@@ -207,14 +208,9 @@ package com.cw.view {
 				currentTrackLoader = LoaderMax.getLoader(currentTrack);
 				var theMP3Title:String = currentTrackLoader.vars.mp3Title;
 				var rawMP3Title:XML = currentTrackLoader.vars.rawXML;
-//				theCDynamicTextField.updateTheTextField('<mp3>'+theMP3Title+'</mp3>')
 				theCDynamicTextField.updateTheTextField(rawMP3Title.mp3Title);
 				TweenMax.to (theTextField, .5, {alpha:1});
 				trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title + '\n' + currentTrack);
-//				trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
-//				trace(xml);
-//				
-//				trace(xml.mp3Title);
 			}
 		}
 	}

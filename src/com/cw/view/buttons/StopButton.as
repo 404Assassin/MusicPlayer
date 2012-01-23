@@ -79,11 +79,19 @@ package com.cw.view.buttons {
 		 * receive notification from InvokedObserver
 		 */
 		public function update (infoObject:String):void {
-			try {
+			if(hasOwnProperty(infoObject)) {
 				this[infoObject](infoObject);
-			} catch(error:Error) {
-//				trace(" ::::::::::: skip non methods!!!!! ");
 			}
+		}
+		/**
+		 * button on/off states via observer update
+		 * @param infoObject
+		 */	
+		public function theStopStateOn (infoObject:String):void {
+			buttonOnOffStates.buttonStatesInterface(theStopButton.iconTop, 'OnState');
+		}
+		public function theStopStateOff (infoObject:String):void {
+			buttonOnOffStates.buttonStatesInterface(theStopButton.iconTop, 'OffState');
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
@@ -120,16 +128,6 @@ package com.cw.view.buttons {
 			buttonStates.buttonStatesInterface(theStopButton.background, 'UpState');
 			buttonOnOffStates.buttonStatesInterface(theStopButton.iconMiddle, 'OffState');
 			notifyObservers(theButtonState);
-		}
-		/**
-		 * button on/off states via observer update
-		 * @param infoObject
-		 */	
-		private function theStopStateOn (infoObject:String):void {
-			buttonOnOffStates.buttonStatesInterface(theStopButton.iconTop, 'OnState');
-		}
-		private function theStopStateOff (infoObject:String):void {
-			buttonOnOffStates.buttonStatesInterface(theStopButton.iconTop, 'OffState');
 		}
 	}
 }
