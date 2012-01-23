@@ -83,10 +83,8 @@ package com.cw.model.states {
 			musicPlayerState.setCurrentTrack(theCurrentPosition += 1);
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-			currentTrackLoader.playSound();
-			musicPlayerState.setState(musicPlayerState.getPlay());
+			musicPlayerState.setState(musicPlayerState.getNext());
 			reset();
-			musicPlayerState.notifyObservers('thePlayStateOn');
 		}
 		public function back ():void {
 			currentTrack = musicPlayerState.getCurrentTrack();
