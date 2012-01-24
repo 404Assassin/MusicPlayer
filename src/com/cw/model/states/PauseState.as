@@ -66,6 +66,7 @@ package com.cw.model.states {
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			musicPlayerState.setState(musicPlayerState.getStop());
 			reset();
+			musicPlayerState.notifyObservers('theStopState');
 		}
 		public function pause ():void {
 			currentTrack = musicPlayerState.getCurrentTrack();
@@ -107,6 +108,7 @@ package com.cw.model.states {
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.duration, false);
 				musicPlayerState.setState(musicPlayerState.getStop());
 				reset();
+				musicPlayerState.notifyObservers('theStopState');
 			} else if((currentTrackLoader.soundTime + forwardStepParam) < currentTrackLoader.duration) {
 				currentTrackLoader.playSound();
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime + forwardStepParam);

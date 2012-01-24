@@ -63,6 +63,7 @@ package com.cw.model.states {
 			musicPlayerState.setCurrentTrack(setInitialTrack);
 			musicPlayerState.setState(musicPlayerState.getStop());
 			reset();
+			musicPlayerState.notifyObservers('theStopState');
 		}
 		public function pause ():void {
 			musicPlayerState.setCurrentTrack(setInitialTrack);
@@ -77,9 +78,7 @@ package com.cw.model.states {
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			musicPlayerState.setState(musicPlayerState.getNext());
-			trace(" ::::::::::: InitialState.next() " + currentTrack);
 			currentTrackLoader.playSound();
-//			musicPlayerState.setState(musicPlayerState.getPlay());
 			reset();
 			musicPlayerState.notifyObservers('thePlayStateOn');
 			currentTrackLoader.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
@@ -90,8 +89,6 @@ package com.cw.model.states {
 			musicPlayerState.setCurrentTrack(theCurrentPosition -= 1);
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-//			musicPlayerState.setState(musicPlayerState.getBack());
-			trace(" ::::::::::: InitialState.next() " + currentTrack);
 			currentTrackLoader.playSound();
 			musicPlayerState.setState(musicPlayerState.getPlay());
 			reset();

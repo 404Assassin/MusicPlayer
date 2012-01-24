@@ -60,6 +60,7 @@ package com.cw.model.states{
 			currentTrackLoader.pauseSound();
 			musicPlayerState.setState(musicPlayerState.getStop());
 			reset();
+			musicPlayerState.notifyObservers('theStopState');
 		}
 		public function pause():void{
 			currentTrack = musicPlayerState.getCurrentTrack();
@@ -139,14 +140,5 @@ package com.cw.model.states{
 			reset();
 			musicPlayerState.notifyObservers('thePlayStateOn');
 		}
-		/**
-		 * Method for returning mp3 title text.
-		 */
-//		private function theTitleText ():void {
-//			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-//			var theMP3Title:String = currentTrackLoader.vars.mp3Title;
-//			trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title);
-//			trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
-//		}
 	}	
 }

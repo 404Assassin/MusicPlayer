@@ -62,6 +62,7 @@ package com.cw.model.states {
 			currentTrackLoader.pauseSound();
 			musicPlayerState.setState(musicPlayerState.getStop());
 			reset();
+			musicPlayerState.notifyObservers('theStopState');
 		}
 		public function pause ():void {
 			currentTrack = musicPlayerState.getCurrentTrack();
@@ -107,6 +108,7 @@ package com.cw.model.states {
 				currentTrackLoader = LoaderMax.getLoader(currentTrack);
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.duration, false);
 				musicPlayerState.setState(musicPlayerState.getStop());
+				musicPlayerState.notifyObservers('theStopState');
 				reset();
 			} else if((currentTrackLoader.soundTime + forwardStepParam) < currentTrackLoader.duration) {
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime + forwardStepParam);
@@ -132,7 +134,6 @@ package com.cw.model.states {
 				reset();
 				musicPlayerState.notifyObservers('thePlayStateOn');
 			} else if((currentTrackLoader.soundTime + rewindStepParam) > 0) {
-				trace(currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime - rewindStepParam);
 				musicPlayerState.setState(musicPlayerState.getRewind());
 				reset();
@@ -165,6 +166,7 @@ package com.cw.model.states {
 			musicPlayerState.setState(musicPlayerState.getPlay());
 			currentTrackLoader.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
 			musicPlayerState.notifyObservers('thePlayStateOn');
+			musicPlayerState.notifyObservers('progressionPlaying');
 		}
 		/**
 		 * Method for returning mp3 title text.
@@ -174,7 +176,7 @@ package com.cw.model.states {
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			var theMP3Title:String = currentTrackLoader.vars.mp3Title;
 			trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title + '\n' + currentTrack);
-			trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
+			trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration+ '\n' + currentTrackLoader.playProgress);
 		}
 	}
 }
