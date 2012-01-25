@@ -56,7 +56,7 @@ package com.cw.view.progressUI {
 		// Public Interfaces
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function initProgressBar ():void {
-			addProgressBar();
+			addProgressBarHolder();
 			addProgressScrubber ();
 		}
 		public function getProgressBar ():Sprite {
@@ -83,6 +83,9 @@ package com.cw.view.progressUI {
 			this.observer = observer;
 			observer.removeObserver(this);
 		}
+		/**
+		 * Updates to all registared observers with string @param infoObject.
+		 */		
 		public function update (infoObject:String):void {
 			if(infoObject.substring(0, 5) == 'track') {
 				this.currentTrack = infoObject;
@@ -91,16 +94,27 @@ package com.cw.view.progressUI {
 				this[infoObject]();
 			}
 		}
+		/**
+		 * Update call from controller to first check if the sound is playing 
+		 * and if it's not play the progress loop.
+		 */		
 		public function thePlayStateOn ():void {
 			if(!theStateOfPlay) {
 				theStateOfPlay = true;
 				progressHandler();
 			}
 		}
+		/**
+		 * Update call from controller to pause the progress loop.
+		 */		
 		public function thePauseStateOn ():void {
 			theStateOfPlay = false
 			myTimeline.pause();
 		}
+		/**
+		 * Update call from controller to pause the progress loop and reset the 
+		 * state of both the scrubber symbol and the progress bar.
+		 */		
 		public function theStopState ():void {
 			theStateOfPlay = false
 			TweenMax.to(scrubberSymbol, .2, {alpha:.25, x:(0-(diagonal*.5)-.5), ease:Linear});
@@ -110,22 +124,37 @@ package com.cw.view.progressUI {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		private function addProgressBar ():void {
+		/**
+		 * Create and add progress bar holder sprite which will act as our 
+		 * returned Object. Next create and add a mask for all included objects.
+		 */		
+		private function addProgressBarHolder ():void {
 			progressBarHolder = new Sprite();
 			var scrubberSymbolMask:Sprite = new Sprite();
 			progressBarHolder.addChild(scrubberSymbolMask);
 			var theShapeCreator:CreateShape = new CreateShape();
 			theShapeCreator.draw(CreateShape.SQUARE_FILLED, scrubberSymbolMask, 0, 0, progressBarWidth, progressBarHeight);
+			progressBarHolder.mask = scrubberSymbolMask;
+			addProgressBar();
+		}
+		/**
+		 * Create the Progress Bar, set its initial state, and add to the 
+		 * progressBarHolder sprite. 
+		 */		
+		private function addProgressBar():void{
 			progressBar = new Sprite();
 			TweenMax.to(progressBar, 0, {alpha:0, scaleX:0});
 			var theShapeCreator2:CreateShape = new CreateShape();
 			theShapeCreator2.draw(CreateShape.SQUARE_FILLED, progressBar, 0, 0, progressBarWidth, progressBarHeight);
 			progressBarHolder.addChild(progressBar);
-			progressBarHolder.mask = scrubberSymbolMask;
 		}
+		/**
+		 * Create and add the scrubber symbol, set its initial state, and add 
+		 * to the progressBarHolder sprite. 
+		 */		
 		private function addProgressScrubber ():void {
-			var shapeWidth:int = 10;
-			var shapeHeight:int = 10;
+			var shapeWidth:int = 5;
+			var shapeHeight:int = 5;
 			scrubberSymbol = new Sprite();
 			var theShapeCreator:CreateShape = new CreateShape();
 			theShapeCreator.draw(CreateShape.SQUARE_FILLED, scrubberSymbol, 0, 0, shapeHeight, shapeWidth);
@@ -135,13 +164,17 @@ package com.cw.view.progressUI {
 			TweenMax.to(scrubberSymbol, 0, {alpha:.25, z:0, x:-(diagonal*.5), y:progressBarHeight*.5, rotation:-45});
 			progressBarHolder.addChild(scrubberSymbol);
 		}
+		/**
+		 * useing timeline lite loop to update and track the visual progress of 
+		 * the MP3.
+		 */		
 		private function progressHandler ():void {
 			var currentTrackLoader:MP3Loader = LoaderMax.getLoader(currentTrack);
 			var theProgressNumber:Number = currentTrackLoader.playProgress;
 			var scrubberSymbolX:Number = (theProgressNumber*progressBarWidth-(diagonal*.5))-.5;
 			myTimeline = new TimelineLite({onComplete:progressHandler});
 			myTimeline.append(new TweenMax(scrubberSymbol, .01, {alpha:.25, x:scrubberSymbolX, ease:Linear}));
-			myTimeline.append(new TweenMax(progressBar, .01, {alpha:.25, scaleX:theProgressNumber, ease:Linear}));
+			myTimeline.append(new TweenMax(progressBar, .01, {alpha:.15, scaleX:theProgressNumber, ease:Linear}));
 		}
 	}
 }
