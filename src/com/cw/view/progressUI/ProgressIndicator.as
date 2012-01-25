@@ -6,7 +6,7 @@
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // Package Declaration
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-package com.cw.view {
+package com.cw.view.progressUI {
 	/**
 	 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	 * class description: ProgressIndicator
@@ -21,6 +21,7 @@ package com.cw.view {
 	// Imports
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	import com.cw.control.observer.ISubject;
+	import com.cw.utilities.math.DiagonalValue;
 	import com.cw.view.shapeCreators.CreateShape;
 	import com.greensock.TimelineLite;
 	import com.greensock.TweenMax;
@@ -28,7 +29,6 @@ package com.cw.view {
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
 	import flash.display.Sprite;
-
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -38,12 +38,16 @@ package com.cw.view {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var progressBarHolder:Sprite;
 		private var progressBar:Sprite;
+		private var progressBarHeight:int = 20;
+		private var progressBarWidth:int = 298;
+		private var scrubberSymbol:Sprite;
 		private var observer:ISubject;
 		private var currentTrack:String;
 		private var currentTrackLoader:MP3Loader;
 		private var currentPosition:String;
 		private var myTimeline:TimelineLite;
 		private var theStateOfPlay:Boolean;
+		private var diagonal:Number;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -53,6 +57,7 @@ package com.cw.view {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function initProgressBar ():void {
 			addProgressBar();
+			addProgressScrubber ();
 		}
 		public function getProgressBar ():Sprite {
 			return progressBarHolder;
@@ -86,10 +91,6 @@ package com.cw.view {
 				this[infoObject]();
 			}
 		}
-		public function getCurrentTrack ():String {
-			notifyObservers(currentTrack);
-			return currentTrack
-		}
 		public function thePlayStateOn ():void {
 			if(!theStateOfPlay) {
 				theStateOfPlay = true;
@@ -102,7 +103,8 @@ package com.cw.view {
 		}
 		public function theStopState ():void {
 			theStateOfPlay = false
-			/*myTimeline.append(new */TweenMax.to(progressBarHolder, .2, {alpha:.25, scaleX:0, ease:Linear});
+			TweenMax.to(scrubberSymbol, .2, {alpha:.25, x:(0-(diagonal*.5)-.5), ease:Linear});
+			TweenMax.to(progressBar, .2, {alpha:.25, scaleX:0, ease:Linear});
 			myTimeline.stop();
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -110,17 +112,36 @@ package com.cw.view {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private function addProgressBar ():void {
 			progressBarHolder = new Sprite();
-			progressBar = new Sprite();
+			var scrubberSymbolMask:Sprite = new Sprite();
+			progressBarHolder.addChild(scrubberSymbolMask);
 			var theShapeCreator:CreateShape = new CreateShape();
-			theShapeCreator.draw(CreateShape.SQUARE_FILLED, progressBar, 0, 0, 300, 20)
+			theShapeCreator.draw(CreateShape.SQUARE_FILLED, scrubberSymbolMask, 0, 0, progressBarWidth, progressBarHeight);
+			progressBar = new Sprite();
+			TweenMax.to(progressBar, 0, {alpha:0, scaleX:0});
+			var theShapeCreator2:CreateShape = new CreateShape();
+			theShapeCreator2.draw(CreateShape.SQUARE_FILLED, progressBar, 0, 0, progressBarWidth, progressBarHeight);
 			progressBarHolder.addChild(progressBar);
+			progressBarHolder.mask = scrubberSymbolMask;
+		}
+		private function addProgressScrubber ():void {
+			var shapeWidth:int = 10;
+			var shapeHeight:int = 10;
+			scrubberSymbol = new Sprite();
+			var theShapeCreator:CreateShape = new CreateShape();
+			theShapeCreator.draw(CreateShape.SQUARE_FILLED, scrubberSymbol, 0, 0, shapeHeight, shapeWidth);
+			var theDiagonalValue:DiagonalValue = new DiagonalValue();
+			theDiagonalValue.setShapeValue(shapeWidth, shapeHeight);
+			diagonal = theDiagonalValue.getDiagonalValue();
+			TweenMax.to(scrubberSymbol, 0, {alpha:.25, z:0, x:-(diagonal*.5), y:progressBarHeight*.5, rotation:-45});
+			progressBarHolder.addChild(scrubberSymbol);
 		}
 		private function progressHandler ():void {
 			var currentTrackLoader:MP3Loader = LoaderMax.getLoader(currentTrack);
 			var theProgressNumber:Number = currentTrackLoader.playProgress;
-			trace(" ::::::::::: ProgressIndicator.progressHandler(progressAmount) " + theProgressNumber);
+			var scrubberSymbolX:Number = (theProgressNumber*progressBarWidth-(diagonal*.5))-.5;
 			myTimeline = new TimelineLite({onComplete:progressHandler});
-			myTimeline.append(new TweenMax(progressBarHolder, .2, {alpha:.25, scaleX:theProgressNumber, ease:Linear}));
+			myTimeline.append(new TweenMax(scrubberSymbol, .01, {alpha:.25, x:scrubberSymbolX, ease:Linear}));
+			myTimeline.append(new TweenMax(progressBar, .01, {alpha:.25, scaleX:theProgressNumber, ease:Linear}));
 		}
 	}
 }
