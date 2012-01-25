@@ -23,6 +23,8 @@ package com.cw.view {
 	import com.cw.control.observer.ISubject;
 	import com.cw.model.MusicPlayerState;
 	import com.cw.utilities.preloaders.OneBarPreloader;
+	import com.cw.view.progressUI.ProgressIndicator;
+//	import com.cw.view.ProgressIndicator
 	import com.cw.view.buttons.BackButton;
 	import com.cw.view.buttons.ForwardButton;
 	import com.cw.view.buttons.NextButton;
@@ -35,7 +37,6 @@ package com.cw.view {
 	import com.greensock.TweenMax;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
-	
 	import flash.display.Sprite;
 
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -47,22 +48,8 @@ package com.cw.view {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var observer:ISubject;
 		private var theMusicPlayerUI:Sprite
-		private var theBackButton:bttn_back = new bttn_back();
-		private var theForwardButton:bttn_forward = new bttn_forward();
-		private var theRewindButton:bttn_rewind = new bttn_rewind();
-		private var theStopButton:bttn_stop = new bttn_stop();
-		private var thePauseButton:bttn_pause = new bttn_pause();
-		private var thePlayButton:bttn_play = new bttn_play();
-		private var theNextButton:bttn_next = new bttn_next();
-//		private var theTitleText:TitleText;
-		private var theCDynamicTextField:CDynamicTextField;
 		private var theButtonState:String;
 		private var buttonHolder:Sprite = new Sprite();
-		private var musicPlayerState:MusicPlayerState;
-		private var currentTrack:String;
-		private var currentTrackLoader:MP3Loader;
-		private var theTextField:Sprite;
-		private var theOneBarPreloader:OneBarPreloader;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -98,10 +85,8 @@ package com.cw.view {
 			observer.removeObserver(this);
 		}
 		public function update (infoObject:String):void {
-			try {
+			if(hasOwnProperty(infoObject)) {
 				this[infoObject]();
-			} catch(error:Error) {
-				//trace(" ::::::::::: skip non methods!!!!! ");
 			}
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -109,7 +94,8 @@ package com.cw.view {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private function addInterface ():void {
 			theMusicPlayerUI = new Sprite();
-			preloader ();
+			preloader();
+			titleText(theMusicPlayerUI);
 			rewindButton(theMusicPlayerUI);
 			backButton(theMusicPlayerUI);
 			stopButton(theMusicPlayerUI);
@@ -117,13 +103,25 @@ package com.cw.view {
 			playButton(theMusicPlayerUI);
 			nextButton(theMusicPlayerUI);
 			forwardButton(theMusicPlayerUI);
-			titleText(theMusicPlayerUI);
+			scrubber();
 		}
+		/**
+		 * Method for creating and returning the preloader.
+		 */
 		private function preloader ():void {
-			theOneBarPreloader = new OneBarPreloader();
+			var theOneBarPreloader:OneBarPreloader = new OneBarPreloader();
 			theOneBarPreloader.addObserver(observer);
 			theOneBarPreloader.initProgressBar();
 			var preloadBar:Sprite = theOneBarPreloader.getProgressBar();
+			theMusicPlayerUI.addChild(preloadBar);
+			preloadBar.x = 171;
+			preloadBar.y = 140;
+		}
+		private function scrubber():void{
+			var theProgressIndicator:ProgressIndicator = new ProgressIndicator();
+			theProgressIndicator.addObserver(observer);
+			theProgressIndicator.initProgressBar();
+			var preloadBar:Sprite = theProgressIndicator.getProgressBar();
 			theMusicPlayerUI.addChild(preloadBar);
 			preloadBar.x = 171;
 			preloadBar.y = 140;
