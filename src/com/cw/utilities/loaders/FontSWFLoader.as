@@ -32,6 +32,7 @@ package com.cw.utilities.loaders{
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+		private var observer:ISubject;
 		private var _name:String;
 		private var fonts:Array
 		private var fontSWFURL:String;
@@ -70,14 +71,14 @@ package com.cw.utilities.loaders{
 		 * updated observer and adding subscription with addObserver(this).
 		 */
 		public function addObserver (observer:ISubject):void {
-//			this.observer = observer;
-//			observer.addObserver(this);
+			this.observer = observer;
+			observer.addObserver(this);
 		}
 		/**
 		 * InvokedObserver notification
 		 */
 		public function notifyObservers (infoObject:String):void {
-//			observer.notifyObservers(theButtonState);
+			observer.notifyObservers(infoObject);
 		}
 		/**
 		 * remove an observer refrence from InvokedObserver

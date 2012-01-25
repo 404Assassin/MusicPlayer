@@ -51,9 +51,9 @@ package com.cw.model {
 		private var playState:IMusicPlayerState;
 		private var rewindState:IMusicPlayerState;
 		private var stopState:IMusicPlayerState;
-		private var mp3Dictionary:Dictionary;
-		private var currentTrack:String;
-		private var currentTrackLoader:MP3Loader;
+//		private var mp3Dictionary:Dictionary;
+//		private var currentTrack:String;
+//		private var currentTrackLoader:MP3Loader;
 		private var currentPosition:int;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
@@ -92,6 +92,7 @@ package com.cw.model {
 			}
 		}
 		public function getCurrentTrack():String{
+			var currentTrack:String;
 			currentTrack = 'track' + currentPosition;
 			notifyObservers(currentTrack);
 			return currentTrack
