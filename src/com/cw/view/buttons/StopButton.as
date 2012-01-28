@@ -80,17 +80,17 @@ package com.cw.view.buttons {
 		 */
 		public function update (infoObject:String):void {
 			if(hasOwnProperty(infoObject)) {
-				this[infoObject](infoObject);
+				this[infoObject]();
 			}
 		}
 		/**
 		 * button on/off states via observer update
 		 * @param infoObject
 		 */	
-		public function theStopStateOn (infoObject:String):void {
+		public function theStopStateOn ():void {
 			buttonOnOffStates.buttonStatesInterface(theStopButton.iconTop, 'OnState');
 		}
-		public function theStopStateOff (infoObject:String):void {
+		public function theStopStateOff ():void {
 			buttonOnOffStates.buttonStatesInterface(theStopButton.iconTop, 'OffState');
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -100,7 +100,7 @@ package com.cw.view.buttons {
 			theButton = new Sprite();
 			theButton.addChild(theStopButton);
 			addButtonEvents();
-			theStopStateOff (null);
+			theStopStateOff ();
 		}
 		private function addButtonEvents ():void {
 			theStopButton.buttonMode = true;

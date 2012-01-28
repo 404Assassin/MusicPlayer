@@ -80,17 +80,17 @@ package com.cw.view.buttons{
 		 */
 		public function update (infoObject:String):void {
 			if(hasOwnProperty(infoObject)) {
-				this[infoObject](infoObject);
+				this[infoObject]();
 			}
 		}
 		/**
 		 * button on/off states via observer update
 		 * @param infoObject
 		 */	
-		public function theBackStateOn (infoObject:String):void {
+		public function theBackStateOn ():void {
 			buttonOnOffStates.buttonStatesInterface(theBackButton.iconTop, 'OnState');
 		}
-		public function theBackStateOff (infoObject:String):void {
+		public function theBackStateOff ():void {
 			buttonOnOffStates.buttonStatesInterface(theBackButton.iconTop, 'OffState');
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -100,7 +100,7 @@ package com.cw.view.buttons{
 			theButton = new Sprite();
 			theButton.addChild(theBackButton);
 			addButtonEvents();
-			theBackStateOff (null);
+			theBackStateOff ();
 		}
 		private function addButtonEvents ():void {
 			theBackButton.buttonMode = true;
@@ -120,7 +120,6 @@ package com.cw.view.buttons{
 			buttonOnOffStates.buttonStatesInterface(theBackButton.iconMiddle, 'OffState');
 		}
 		private function placementTargetDown (downEvent:Event):void {
-			trace(" ::::::::::: BackButton.placementTargetDown(downEvent) ");
 			buttonStates.buttonStatesInterface(theBackButton.background, 'DownState');
 			buttonStates.buttonStatesInterface(theBackButton.iconBottom, 'DownState');
 			buttonOnOffStates.buttonStatesInterface(theBackButton.iconMiddle, 'OnState');

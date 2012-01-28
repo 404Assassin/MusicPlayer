@@ -79,17 +79,17 @@ package com.cw.view.buttons {
 		 */
 		public function update (infoObject:String):void {
 			if(hasOwnProperty(infoObject)) {
-				this[infoObject](infoObject);
+				this[infoObject]();
 			}
 		}
 		/**
 		 * button on/off states via observer update
 		 * @param infoObject
 		 */	
-		public function thePlayStateOn (infoObject:String):void {
+		public function thePlayStateOn ():void {
 			buttonOnOffStates.buttonStatesInterface(thePlayButton.iconTop, 'OnState');
 		}
-		public function thePlayStateOff (infoObject:String):void {
+		public function thePlayStateOff ():void {
 			buttonOnOffStates.buttonStatesInterface(thePlayButton.iconTop, 'OffState');
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -99,7 +99,7 @@ package com.cw.view.buttons {
 			theButton = new Sprite();
 			theButton.addChild(thePlayButton);
 			addButtonEvents();
-			thePlayStateOff(null);
+			thePlayStateOff();
 		}
 		private function addButtonEvents ():void {
 			thePlayButton.buttonMode = true;

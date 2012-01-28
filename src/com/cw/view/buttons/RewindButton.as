@@ -79,17 +79,17 @@ package com.cw.view.buttons{
 		 */
 		public function update (infoObject:String):void {
 			if(hasOwnProperty(infoObject)) {
-				this[infoObject](infoObject);
+				this[infoObject]();
 			}
 		}
 		/**
 		 * button on/off states via observer update
 		 * @param infoObject
 		 */	
-		public function theRewindStateOn (infoObject:String):void {
+		public function theRewindStateOn ():void {
 			buttonOnOffStates.buttonStatesInterface(theRewindButton.iconTop, 'OnState');
 		}
-		public function theRewindStateOff (infoObject:String):void {
+		public function theRewindStateOff ():void {
 			buttonOnOffStates.buttonStatesInterface(theRewindButton.iconTop, 'OffState');
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -99,7 +99,7 @@ package com.cw.view.buttons{
 			theButton = new Sprite();
 			theButton.addChild(theRewindButton);
 			addButtonEvents();
-			theRewindStateOff(null);
+			theRewindStateOff();
 		}
 		private function addButtonEvents ():void {
 			theRewindButton.buttonMode = true;
