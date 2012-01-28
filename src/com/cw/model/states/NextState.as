@@ -37,8 +37,6 @@ package com.cw.model.states {
 		private var musicPlayerState:MusicPlayerState;
 		private var currentTrack:String;
 		private var currentTrackLoader:MP3Loader;
-		private var rewindStepParam:int = 5;
-		private var rewindLoopParam:Number = .5;
 		private var forwardStepParam:int = 5;
 		private var forwardLoopParam:Number = .5;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

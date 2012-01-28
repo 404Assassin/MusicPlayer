@@ -136,13 +136,5 @@ package com.cw.model.states {
 			currentTrackLoader.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
 			musicPlayerState.notifyObservers('thePlayStateOn');
 		}
-		/**
-		 * Method for returning mp3 title text.
-		 */
-		private function theTitleText ():void {
-			var theMP3Title:String = currentTrackLoader.vars.mp3Title;
-			trace(" ::::::::::: MusicPlayerState.theButtonText(nodeName) " + theMP3Title);
-			trace(" ::::::::::: PlayState.rewind() " + '\n' + currentTrackLoader.soundTime + '\n' + currentTrackLoader.duration);
-		}
 	}
 }
