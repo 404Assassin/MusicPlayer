@@ -28,15 +28,13 @@ package com.cw.utilities.loaders{
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	public class FontSWFLoader implements ISubject{
-		public static var NAME_CHANGED:String="nameChanged";
+//		public static var NAME_CHANGED:String="nameChanged";
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private var observer:ISubject;
-		private var _name:String;
 		private var fonts:Array
 		private var fontSWFURL:String;
-		private var fontSWFLoader:Loader = new Loader();
 		private var explorer:SWFExplorer = new SWFExplorer();
 		private var fontLoadObserver:ISubject;
 		/**
@@ -54,9 +52,7 @@ package com.cw.utilities.loaders{
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function FontSWFLoader(){};
 		/**
-		 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		 * 1. pass the interface the font swf URL.
-		 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		 */
 		public function fontSWFLoaderInterface(fontSWFURL:String):void{
 			this.fontSWFURL = fontSWFURL;
@@ -84,15 +80,17 @@ package com.cw.utilities.loaders{
 		 * remove an observer refrence from InvokedObserver
 		 */
 		public function removeObserver (observer:ISubject):void {
+			this.observer = observer;
+			observer.removeObserver(this);
 		}
 		public function update(infoObject:Object):void {
-			trace('@ FontSWFLoader' + ' ' + infoObject);
+			if(hasOwnProperty(infoObject)) {
+				this[infoObject]();
+			}
 		}
 		/**
-		 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		 * 1. enter the class name of your fonts as the string value below to 
 		 * add your loaded swf font class to your application.
-		 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		 */
 		private function swfXplorerLoad():void{
 			explorer.load ( new URLRequest ( fontSWFURL));
@@ -114,9 +112,7 @@ package com.cw.utilities.loaders{
 			fontCheck();
 		}
 		/**
-		 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		 * 1. list loaded fonts in console.
-		 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		 */
 		private function fontCheck():void{
 			fonts = Font.enumerateFonts();
