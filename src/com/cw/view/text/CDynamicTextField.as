@@ -36,17 +36,13 @@ package com.cw.view.text{
 		private var textVerticalBuffer:uint = 2;
 		private var textHorizontalOffset:Number = 4;
 		private var textVerticalOffset:Number = 2;
-		private var textContent:String
-		private var textFieldWidth:uint
-		private var textFieldHeight:uint
-		private var textFieldBackground:Boolean
-		private var textFieldBackgroundColor:uint
-		private var textFieldMultiline:Boolean
-		private var textFieldWordWrap:Boolean
-		private var xPlacement:int;
-		private var yPlacement:int;
-		private var dynamicButtonObserver:InvokedObserver
-		private var eventTarget:Object;
+		private var textContent:String;
+		private var textFieldWidth:uint;
+		private var textFieldHeight:uint;
+		private var textFieldBackground:Boolean;
+		private var textFieldBackgroundColor:uint;
+		private var textFieldMultiline:Boolean;
+		private var textFieldWordWrap:Boolean;
 		private var textField:TextField;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
@@ -98,6 +94,7 @@ package com.cw.view.text{
 		private function addTextFieldText():void{
 			textField = new TextField();
 			textField.embedFonts = false;
+			textField.selectable = false;
 			textField.background = textFieldBackground;
 			textField.backgroundColor = textFieldBackgroundColor;
 			textField.width = textFieldWidth - textHorizontalBuffer;

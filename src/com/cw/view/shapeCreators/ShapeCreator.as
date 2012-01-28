@@ -29,7 +29,7 @@ package com.cw.view.shapeCreators{
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function draw(shapeType:uint, target:DisplayObjectContainer, shapesX:int, shapesY:int, shapeWidth:uint ,shapeHeight:uint):void{
-			var shape:Object = this.createShape(shapeType);
+			var shape:AbastractShapeCreator = this.createShape(shapeType);
 			shape.createShape();
 			shape.setWidthHeight(shapeWidth, shapeHeight);
 			shape.setXYShapeLocation(shapesX, shapesY);
@@ -40,7 +40,7 @@ package com.cw.view.shapeCreators{
 		// (the method should only be implemented in a subclass).
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		protected function createShape(shapeType:uint):AbastractShapeCreator{
-			throw new IllegalOperationError('Abstract method: must be overridden in a subclass');
+			throw new IllegalOperationError('Abstract method: must be overridden in a subclass. ShapeCreator.createShape('+ shapeType+')');
 			return null;
 		}
 	}

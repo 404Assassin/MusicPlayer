@@ -1,4 +1,5 @@
-package com.cw.utilities.math{
+package com.cw.utilities.math {
+
 	/**
 	 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	 * RatioConversion class.
@@ -6,7 +7,7 @@ package com.cw.utilities.math{
 	 * player version: Flash 10.0
 	 * author: Christian Worley
 	 * created: 10/2011
-	 * TODO; 
+	 * TODO;
 	 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	 */
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -15,7 +16,7 @@ package com.cw.utilities.math{
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	public class RatioConversion{
+	public class RatioConversion {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Variables
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -23,22 +24,22 @@ package com.cw.utilities.math{
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		public function RatioConversion(){}
+		public function RatioConversion () {}
 		/**
 		 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		 * Pass the interface your; originalValue, the originalMinimum and 
+		 * Pass the interface your; originalValue, the originalMinimum and
 		 * originalMaximum number range and the desired returnedMinimum and
 		 * returnedMaximum number range for the ratio converted value.
 		 * :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		 */
-		public function ratioConversionInterface(originalValue:Number, originalMinimum:Number, originalMaximum:Number, returnedMinimum:Number, returnedMaximum:Number):Number{
-				//var originalValue:Number;
-				/*var originalMinimum:Number = 0;
-				var originalMaximum:Number = .25;
-				var returnedMinimum:Number = 0;
-				var returnedMaximum:Number = 1;*/
-				returnedValue = ( ( originalValue - originalMinimum ) / (originalMaximum - originalMinimum) ) * (returnedMaximum - returnedMinimum) + returnedMinimum
-				return returnedValue
+		public function ratioConversionInterface (originalValue:Number, originalMinimum:Number, originalMaximum:Number, returnedMinimum:Number, returnedMaximum:Number):Number {
+			//var originalValue:Number;
+			/*var originalMinimum:Number = 0;
+			var originalMaximum:Number = .25;
+			var returnedMinimum:Number = 0;
+			var returnedMaximum:Number = 1;*/
+			returnedValue = ((originalValue - originalMinimum) / (originalMaximum - originalMinimum)) * (returnedMaximum - returnedMinimum) + returnedMinimum
+			return returnedValue
 		}
 	}
 }

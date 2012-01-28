@@ -22,9 +22,8 @@ package com.cw.view {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	import com.cw.control.observer.ISubject;
 	import com.cw.model.MusicPlayerState;
-	import com.cw.utilities.preloaders.OneBarPreloader;
-	import com.cw.view.progressUI.ProgressIndicator;
-//	import com.cw.view.ProgressIndicator
+	import com.cw.view.preloaders.OneBarPreloader;
+	import com.cw.view.interfaceElements.ProgressIndicator;
 	import com.cw.view.buttons.BackButton;
 	import com.cw.view.buttons.ForwardButton;
 	import com.cw.view.buttons.NextButton;
@@ -38,7 +37,6 @@ package com.cw.view {
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
 	import flash.display.Sprite;
-
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -94,6 +92,7 @@ package com.cw.view {
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		private function addInterface ():void {
 			theMusicPlayerUI = new Sprite();
+			theMusicPlayerUI.addChild(buttonHolder);
 			preloader();
 			titleText(theMusicPlayerUI);
 			rewindButton(theMusicPlayerUI);
@@ -117,6 +116,9 @@ package com.cw.view {
 			preloadBar.x = 171;
 			preloadBar.y = 140;
 		}
+		/**
+		 * Method for creating and returning the scrubber and play progress view.
+		 */
 		private function scrubber():void{
 			var theProgressIndicator:ProgressIndicator = new ProgressIndicator();
 			theProgressIndicator.addObserver(observer);
@@ -130,7 +132,7 @@ package com.cw.view {
 		 * Methods for creating and returning the player buttons.
 		 */
 		private function rewindButton (theMusicPlayerUI:Sprite):void {
-			theMusicPlayerUI.addChild(buttonHolder);
+//			theMusicPlayerUI.addChild(buttonHolder);
 			var theRewindButton:RewindButton = new RewindButton();
 			theRewindButton.addObserver(observer);
 			theRewindButton.setButton('rewind');
@@ -140,7 +142,7 @@ package com.cw.view {
 			rewindButton.y = 150;
 		}
 		private function backButton (theMusicPlayerUI:Sprite):void {
-			theMusicPlayerUI.addChild(buttonHolder);
+//			theMusicPlayerUI.addChild(buttonHolder);
 			var theBackButton:BackButton = new BackButton();
 			theBackButton.addObserver(observer);
 			theBackButton.setButton('back');
@@ -150,7 +152,7 @@ package com.cw.view {
 			backButton.y = 150;
 		}
 		private function stopButton (theMusicPlayerUI:Sprite):void {
-			theMusicPlayerUI.addChild(buttonHolder);
+//			theMusicPlayerUI.addChild(buttonHolder);
 			var theStopButton:StopButton = new StopButton();
 			theStopButton.addObserver(observer);
 			theStopButton.setButton('stop');
@@ -160,7 +162,7 @@ package com.cw.view {
 			stopButton.y = 150;
 		}
 		private function pauseButton (theMusicPlayerUI:Sprite):void {
-			theMusicPlayerUI.addChild(buttonHolder);
+//			theMusicPlayerUI.addChild(buttonHolder);
 			var thePauseButton:PauseButton = new PauseButton();
 			thePauseButton.addObserver(observer);
 			thePauseButton.setButton('pause');
@@ -170,7 +172,7 @@ package com.cw.view {
 			pauseButton.y = 150;
 		}
 		private function playButton (theMusicPlayerUI:Sprite):void {
-			theMusicPlayerUI.addChild(buttonHolder);
+//			theMusicPlayerUI.addChild(buttonHolder);
 			var thePlayButton:PlayButton = new PlayButton();
 			thePlayButton.addObserver(observer);
 			thePlayButton.setButton('play');
@@ -180,7 +182,7 @@ package com.cw.view {
 			playButton.y = 150;
 		}
 		private function nextButton (theMusicPlayerUI:Sprite):void {
-			theMusicPlayerUI.addChild(buttonHolder);
+//			theMusicPlayerUI.addChild(buttonHolder);
 			var theNextButton:NextButton = new NextButton();
 			theNextButton.addObserver(observer);
 			theNextButton.setButton('next');
@@ -190,7 +192,7 @@ package com.cw.view {
 			nextButton.y = 150;
 		}
 		private function forwardButton (theMusicPlayerUI:Sprite):void {
-			theMusicPlayerUI.addChild(buttonHolder);
+//			theMusicPlayerUI.addChild(buttonHolder);
 			var theForwardButton:ForwardButton = new ForwardButton();
 			theForwardButton.addObserver(observer);
 			theForwardButton.setButton('forward');
@@ -203,7 +205,7 @@ package com.cw.view {
 		 * Method for creating and returning the mp3 title text field.
 		 */
 		private function titleText (theMusicPlayerUI:Sprite):void {
-			theMusicPlayerUI.addChild(buttonHolder);
+//			theMusicPlayerUI.addChild(buttonHolder);
 			var theTitleText:TitleText = new TitleText()
 			theTitleText.addObserver(observer);
 			theTitleText.initTheTitleText();
@@ -211,6 +213,12 @@ package com.cw.view {
 			buttonHolder.addChild(titleText);
 			titleText.x = 170;
 			titleText.y = 139;
+		}
+		/**
+		 * Method for creating and returning the mp3 volume controller.
+		 */
+		private function volumeController():void{
+			
 		}
 	}
 }
