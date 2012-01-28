@@ -25,16 +25,19 @@ package {
 	import com.cw.control.observer.InvokedObserver;
 	import com.cw.model.MP3LoadQueue;
 	import com.cw.model.MusicPlayerState;
-	import com.cw.utilities.preloaders.OneBarPreloader;
+	import com.cw.view.preloaders.OneBarPreloader;
 	import com.cw.view.MusicPlayerUI;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
 	import com.greensock.loading.XMLLoader;
+	
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
+	
+	import org.casalib.util.StageReference;
 
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// SWF characteristics
@@ -57,6 +60,7 @@ package {
 		// Constructor
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		public function MusicPlayer () {
+			StageReference.setStage(this.stage);
 			addObserver(uiInvokedObserver);
 			initTheBuild();
 		}
