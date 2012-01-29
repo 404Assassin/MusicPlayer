@@ -22,8 +22,6 @@ package com.cw.view {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	import com.cw.control.observer.ISubject;
 	import com.cw.model.MusicPlayerState;
-	import com.cw.view.preloaders.OneBarPreloader;
-	import com.cw.view.interfaceElements.ProgressIndicator;
 	import com.cw.view.buttons.BackButton;
 	import com.cw.view.buttons.ForwardButton;
 	import com.cw.view.buttons.NextButton;
@@ -31,11 +29,15 @@ package com.cw.view {
 	import com.cw.view.buttons.PlayButton;
 	import com.cw.view.buttons.RewindButton;
 	import com.cw.view.buttons.StopButton;
+	import com.cw.view.interfaceElements.ProgressIndicator;
+	import com.cw.view.interfaceElements.VolumeController;
+	import com.cw.view.preloaders.OneBarPreloader;
 	import com.cw.view.text.CDynamicTextField;
 	import com.cw.view.text.TitleText;
 	import com.greensock.TweenMax;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
+	
 	import flash.display.Sprite;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
@@ -103,6 +105,7 @@ package com.cw.view {
 			nextButton(theMusicPlayerUI);
 			forwardButton(theMusicPlayerUI);
 			scrubber();
+			volumeController();
 		}
 		/**
 		 * Method for creating and returning the preloader.
@@ -132,7 +135,6 @@ package com.cw.view {
 		 * Methods for creating and returning the player buttons.
 		 */
 		private function rewindButton (theMusicPlayerUI:Sprite):void {
-//			theMusicPlayerUI.addChild(buttonHolder);
 			var theRewindButton:RewindButton = new RewindButton();
 			theRewindButton.addObserver(observer);
 			theRewindButton.setButton('rewind');
@@ -142,7 +144,6 @@ package com.cw.view {
 			rewindButton.y = 150;
 		}
 		private function backButton (theMusicPlayerUI:Sprite):void {
-//			theMusicPlayerUI.addChild(buttonHolder);
 			var theBackButton:BackButton = new BackButton();
 			theBackButton.addObserver(observer);
 			theBackButton.setButton('back');
@@ -152,7 +153,6 @@ package com.cw.view {
 			backButton.y = 150;
 		}
 		private function stopButton (theMusicPlayerUI:Sprite):void {
-//			theMusicPlayerUI.addChild(buttonHolder);
 			var theStopButton:StopButton = new StopButton();
 			theStopButton.addObserver(observer);
 			theStopButton.setButton('stop');
@@ -162,7 +162,6 @@ package com.cw.view {
 			stopButton.y = 150;
 		}
 		private function pauseButton (theMusicPlayerUI:Sprite):void {
-//			theMusicPlayerUI.addChild(buttonHolder);
 			var thePauseButton:PauseButton = new PauseButton();
 			thePauseButton.addObserver(observer);
 			thePauseButton.setButton('pause');
@@ -172,7 +171,6 @@ package com.cw.view {
 			pauseButton.y = 150;
 		}
 		private function playButton (theMusicPlayerUI:Sprite):void {
-//			theMusicPlayerUI.addChild(buttonHolder);
 			var thePlayButton:PlayButton = new PlayButton();
 			thePlayButton.addObserver(observer);
 			thePlayButton.setButton('play');
@@ -182,7 +180,6 @@ package com.cw.view {
 			playButton.y = 150;
 		}
 		private function nextButton (theMusicPlayerUI:Sprite):void {
-//			theMusicPlayerUI.addChild(buttonHolder);
 			var theNextButton:NextButton = new NextButton();
 			theNextButton.addObserver(observer);
 			theNextButton.setButton('next');
@@ -192,7 +189,6 @@ package com.cw.view {
 			nextButton.y = 150;
 		}
 		private function forwardButton (theMusicPlayerUI:Sprite):void {
-//			theMusicPlayerUI.addChild(buttonHolder);
 			var theForwardButton:ForwardButton = new ForwardButton();
 			theForwardButton.addObserver(observer);
 			theForwardButton.setButton('forward');
@@ -205,7 +201,6 @@ package com.cw.view {
 		 * Method for creating and returning the mp3 title text field.
 		 */
 		private function titleText (theMusicPlayerUI:Sprite):void {
-//			theMusicPlayerUI.addChild(buttonHolder);
 			var theTitleText:TitleText = new TitleText()
 			theTitleText.addObserver(observer);
 			theTitleText.initTheTitleText();
@@ -214,11 +209,16 @@ package com.cw.view {
 			titleText.x = 170;
 			titleText.y = 139;
 		}
-		/**
+		/** getVolumeController
 		 * Method for creating and returning the mp3 volume controller.
 		 */
 		private function volumeController():void{
-			
+			var theVolumeController:VolumeController = new VolumeController();
+			theVolumeController.initVolumeController();
+			var volumeController:Sprite = theVolumeController.getVolumeController()
+			theMusicPlayerUI.addChild(volumeController);
+			volumeController.x = 475;
+			volumeController.y = 139;
 		}
 	}
 }
