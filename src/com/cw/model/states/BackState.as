@@ -106,6 +106,7 @@ package com.cw.model.states {
 				reset();
 				musicPlayerState.notifyObservers('theStopState');
 			} else if((currentTrackLoader.soundTime + forwardStepParam) < currentTrackLoader.duration) {
+				currentTrackLoader.playSound();
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime + forwardStepParam);
 				musicPlayerState.setState(musicPlayerState.getForward());
 				reset();

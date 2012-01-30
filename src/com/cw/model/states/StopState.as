@@ -89,11 +89,15 @@ package com.cw.model.states{
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			if((currentTrackLoader.soundTime + forwardStepParam) > (currentTrackLoader.duration - (forwardStepParam + forwardLoopParam))) {
+				currentTrackLoader.gotoSoundTime(0);
+				currentTrackLoader.pauseSound();
+				var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
+				musicPlayerState.setCurrentTrack(theCurrentPosition += 1);
+				currentTrack = musicPlayerState.getCurrentTrack();
 				currentTrackLoader = LoaderMax.getLoader(currentTrack);
-				currentTrackLoader.gotoSoundTime(currentTrackLoader.duration, false);
-				musicPlayerState.setState(musicPlayerState.getStop());
+				currentTrackLoader.playSound();
 				reset();
-				musicPlayerState.notifyObservers('theStopState');
+				musicPlayerState.notifyObservers('thePlayStateOn');
 			} else if((currentTrackLoader.soundTime + forwardStepParam) < currentTrackLoader.duration) {
 				currentTrackLoader.playSound();
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime + forwardStepParam);

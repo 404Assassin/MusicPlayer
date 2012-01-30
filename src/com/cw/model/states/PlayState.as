@@ -26,7 +26,6 @@ package com.cw.model.states {
 	import com.greensock.loading.MP3Loader;
 	import com.greensock.TweenMax;
 	import flash.events.Event;
-
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -53,7 +52,6 @@ package com.cw.model.states {
 		public function play ():void {
 			reset();
 			musicPlayerState.notifyObservers('thePlayStateOn');
-			trace(" ::::::::::: PlayState.play() ALREADY PLAYING");
 		}
 		public function stop ():void {
 			currentTrack = musicPlayerState.getCurrentTrack();
@@ -105,11 +103,15 @@ package com.cw.model.states {
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
 			if((currentTrackLoader.soundTime + forwardStepParam) > (currentTrackLoader.duration - (forwardStepParam + forwardLoopParam))) {
+				currentTrackLoader.gotoSoundTime(0);
+				currentTrackLoader.pauseSound();
+				var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
+				musicPlayerState.setCurrentTrack(theCurrentPosition += 1);
+				currentTrack = musicPlayerState.getCurrentTrack();
 				currentTrackLoader = LoaderMax.getLoader(currentTrack);
-				currentTrackLoader.gotoSoundTime(currentTrackLoader.duration, false);
-				musicPlayerState.setState(musicPlayerState.getStop());
-				musicPlayerState.notifyObservers('theStopState');
+				currentTrackLoader.playSound();
 				reset();
+				musicPlayerState.notifyObservers('thePlayStateOn');
 			} else if((currentTrackLoader.soundTime + forwardStepParam) < currentTrackLoader.duration) {
 				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime + forwardStepParam);
 				musicPlayerState.setState(musicPlayerState.getForward());
