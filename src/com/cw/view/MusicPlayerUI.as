@@ -214,6 +214,7 @@ package com.cw.view {
 		 */
 		private function volumeController():void{
 			var theVolumeController:VolumeController = new VolumeController();
+			theVolumeController.addObserver(observer);
 			theVolumeController.initVolumeController();
 			var volumeController:Sprite = theVolumeController.getVolumeController()
 			theMusicPlayerUI.addChild(volumeController);
