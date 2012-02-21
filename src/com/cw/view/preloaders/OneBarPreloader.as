@@ -95,7 +95,7 @@ package com.cw.view.preloaders {
 		}
 		private function progressHandler (progressAmount:String):void {
 			var theProgressNumber:Number = Number(progressAmount.slice(14, progressAmount.length));
-			TweenMax.to(progressBar, .2, {alpha:.25, scaleX:theProgressNumber, ease:Linear});
+			TweenMax.to(progressBar, .2, {alpha:.15, scaleX:theProgressNumber, ease:Linear});
 		}
 	}
 }
