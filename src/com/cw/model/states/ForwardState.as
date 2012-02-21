@@ -105,27 +105,14 @@ package com.cw.model.states{
 		public function forward ():void {
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-			if((currentTrackLoader.soundTime + forwardStepParam) > (currentTrackLoader.duration - (forwardStepParam + forwardLoopParam))) {
-				currentTrackLoader.gotoSoundTime(0);
-				currentTrackLoader.pauseSound();
-				var theCurrentPosition:int = musicPlayerState.getCurrentPosition();
-				musicPlayerState.setCurrentTrack(theCurrentPosition += 1);
-				currentTrack = musicPlayerState.getCurrentTrack();
-				currentTrackLoader = LoaderMax.getLoader(currentTrack);
-				currentTrackLoader.playSound();
-				reset();
-				musicPlayerState.notifyObservers('thePlayStateOn');
-			} else if((currentTrackLoader.soundTime + forwardStepParam) < currentTrackLoader.duration) {
-				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime + forwardStepParam);
-				musicPlayerState.setState(musicPlayerState.getForward());
-				reset();
-				musicPlayerState.notifyObservers('theForwardStateOn');
-				TweenMax.delayedCall(forwardLoopParam, forward);
-			}
+			currentTrackLoader.playSound();
+			musicPlayerState.setState(musicPlayerState.getPlay());
+			reset();
+			musicPlayerState.notifyObservers('thePlayStateOn');
 		}
 		/**
-		 * Looping on rewind with TweenMax delayedCall call method so as
-		 * to catch the audio queues on the rewind.
+		 * Looping on rewind with TweenMax delayedCall call method so as to 
+		 * catch the audio queues on the rewind.
 		 */
 		public function rewind ():void {
 			currentTrack = musicPlayerState.getCurrentTrack();
