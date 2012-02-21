@@ -22,6 +22,7 @@ package com.cw.view {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	import com.cw.control.observer.ISubject;
 	import com.cw.model.MusicPlayerState;
+	import com.cw.view.SpectrumDisplay;
 	import com.cw.view.buttons.BackButton;
 	import com.cw.view.buttons.ForwardButton;
 	import com.cw.view.buttons.NextButton;
@@ -32,12 +33,12 @@ package com.cw.view {
 	import com.cw.view.interfaceElements.ProgressIndicator;
 	import com.cw.view.interfaceElements.VolumeController;
 	import com.cw.view.preloaders.OneBarPreloader;
+	import com.cw.view.spectrum.Lights;
 	import com.cw.view.text.CDynamicTextField;
 	import com.cw.view.text.TitleText;
 	import com.greensock.TweenMax;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
-	
 	import flash.display.Sprite;
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
@@ -95,6 +96,7 @@ package com.cw.view {
 		private function addInterface ():void {
 			theMusicPlayerUI = new Sprite();
 			theMusicPlayerUI.addChild(buttonHolder);
+			specTest();
 			preloader();
 			titleText(theMusicPlayerUI);
 			rewindButton(theMusicPlayerUI);
@@ -106,6 +108,10 @@ package com.cw.view {
 			forwardButton(theMusicPlayerUI);
 			scrubber();
 			volumeController();
+		}
+		private function specTest():void{
+			var theLights:Lights = new Lights();
+			
 		}
 		/**
 		 * Method for creating and returning the preloader.
@@ -209,7 +215,7 @@ package com.cw.view {
 			titleText.x = 170;
 			titleText.y = 139;
 		}
-		/** getVolumeController
+		/**
 		 * Method for creating and returning the mp3 volume controller.
 		 */
 		private function volumeController():void{
