@@ -30,6 +30,7 @@ package com.cw.model {
 	import com.cw.model.states.PauseState;
 	import com.cw.model.states.PlayState;
 	import com.cw.model.states.RewindState;
+	import com.cw.model.states.ScrubberState;
 	import com.cw.model.states.StopState;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
@@ -50,10 +51,8 @@ package com.cw.model {
 		private var pauseState:IMusicPlayerState;
 		private var playState:IMusicPlayerState;
 		private var rewindState:IMusicPlayerState;
+		private var scrubberState:IMusicPlayerState;
 		private var stopState:IMusicPlayerState;
-//		private var mp3Dictionary:Dictionary;
-//		private var currentTrack:String;
-//		private var currentTrackLoader:MP3Loader;
 		private var currentPosition:int;
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Constructor
@@ -68,6 +67,7 @@ package com.cw.model {
 			backState = new BackState(this);
 			initialState = new InitialState(this);
 			pauseState = new PauseState(this);
+			scrubberState = new ScrubberState(this);
 			playState = new PlayState(this);
 			stopState = new StopState(this);
 			rewindState = new RewindState(this);
@@ -134,6 +134,10 @@ package com.cw.model {
 			trace(" ::::::::::: MusicPlayerState.getPlay() ");
 			return this.playState;
 		}
+		public function getScrubber ():IMusicPlayerState {
+			trace(" ::::::::::: MusicPlayerState.getScrubber() ");
+			return this.scrubberState;
+		}
 		public function getStop ():IMusicPlayerState {
 			trace(" ::::::::::: MusicPlayerState.getStop() ");
 			return this.stopState;
@@ -169,6 +173,9 @@ package com.cw.model {
 		}
 		private function pause ():void {
 			state.pause();
+		}
+		private function scrubber ():void {
+			state.scrubber();
 		}
 		private function next ():void {
 			state.next();

@@ -27,12 +27,13 @@ package com.cw.model.states{
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Public Interfaces
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		function play():void;
-		function stop():void;
-		function pause():void;
-		function next():void;
 		function back():void;
 		function forward():void;
+		function next():void;
+		function pause():void;
+		function play():void;
 		function rewind():void;
+		function scrubber():void;
+		function stop():void;
 	}
 }

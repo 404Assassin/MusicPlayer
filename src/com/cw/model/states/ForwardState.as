@@ -57,6 +57,11 @@ package com.cw.model.states{
 			reset();
 			musicPlayerState.notifyObservers('thePlayStateOn');
 		}
+		public function scrubber ():void {
+			currentTrack = musicPlayerState.getCurrentTrack();
+			currentTrackLoader = LoaderMax.getLoader(currentTrack);
+			currentTrackLoader.pauseSound();
+		}
 		public function stop():void{
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
