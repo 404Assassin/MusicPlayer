@@ -239,7 +239,7 @@ package com.cw.view.interfaceElements {
 			TweenMax.to(scrubberSymbol, .25, {alpha:1, tint:0x3399FF, ease:Sine.easeOut});
 			StageReference.getStage().addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 			thePauseStateOn();
-			notifyObservers ('pause');
+			notifyObservers ('scrubber');
 			var dragConstraintX:Number = -((diagonal * .5) - .5);
 			var dragConstraints:Rectangle = new Rectangle(dragConstraintX, progressBarHeight * .5, progressBarWidth-.5, 0);
 			scrubberSymbol.startDrag(false, dragConstraints);
