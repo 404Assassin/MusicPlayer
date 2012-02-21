@@ -116,8 +116,6 @@ package com.cw.view.interfaceElements {
 		 * returned Object. Next create and add a mask for all included objects.
 		 */
 		private function addVolumeControllHolder ():void {
-			volumeScaleY = 1;
-			volumeParam = Math.abs(volumeScaleY)
 			theVolumeControllHolder = new Sprite();
 			var volumeSymbolMask:Sprite = new Sprite();
 			TweenMax.to(volumeSymbolMask, 0, {y:-theVolumeControllerHeight});
@@ -132,10 +130,12 @@ package com.cw.view.interfaceElements {
 		 * progressBarHolder sprite.
 		 */
 		private function addLevelBar ():void {
+			volumeScaleY = 1;
+			volumeParam = Math.abs(volumeScaleY)
 			levelBar = new Sprite();
 			var theShapeCreator2:CreateShape = new CreateShape();
 			theShapeCreator2.draw(CreateShape.SQUARE_FILLED, levelBar, 0, 0, theVolumeControllerWidth, theVolumeControllerHeight);
-			TweenMax.to(levelBar, 0, {alpha:.25, x:theVolumeControllerWidth, y:0, height:volumeParam, rotation:180});
+			TweenMax.to(levelBar, 0, {alpha:.25, x:theVolumeControllerWidth, y:0, height:theVolumeControllerHeight, rotation:180});
 			theVolumeControllHolder.addChild(levelBar);
 			addVolumeSlider();
 		}
