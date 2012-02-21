@@ -126,21 +126,10 @@ package com.cw.model.states {
 		public function rewind ():void {
 			currentTrack = musicPlayerState.getCurrentTrack();
 			currentTrackLoader = LoaderMax.getLoader(currentTrack);
-			if((currentTrackLoader.soundTime) < (rewindStepParam + rewindLoopParam)) {
-				currentTrackLoader = LoaderMax.getLoader(currentTrack);
-				currentTrackLoader.gotoSoundTime(0);
-				currentTrackLoader.pauseSound();
-				currentTrackLoader.playSound();
-				musicPlayerState.setState(musicPlayerState.getPlay());
-				reset();
-				musicPlayerState.notifyObservers('thePlayStateOn');
-			} else if((currentTrackLoader.soundTime + rewindStepParam) > 0) {
-				currentTrackLoader.gotoSoundTime(currentTrackLoader.soundTime - rewindStepParam);
-				musicPlayerState.setState(musicPlayerState.getRewind());
-				reset();
-				musicPlayerState.notifyObservers('theRewindStateOn');
-				TweenMax.delayedCall(rewindLoopParam, rewind);
-			}
+			currentTrackLoader.playSound();
+			musicPlayerState.setState(musicPlayerState.getPlay());
+			reset();
+			musicPlayerState.notifyObservers('thePlayStateOn');
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Private Methods
