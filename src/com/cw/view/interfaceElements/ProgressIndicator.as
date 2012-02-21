@@ -137,7 +137,7 @@ package com.cw.view.interfaceElements {
 		public function theStopState ():void {
 			theStateOfPlay = false
 			TweenMax.to(scrubberSymbol, .2, {alpha:.5, x:(0 - (diagonal * .5) - .5), ease:Linear});
-			TweenMax.to(progressBar, .2, {alpha:.25, scaleX:0, ease:Linear});
+			TweenMax.to(progressBar, .2, {alpha:.15, scaleX:0, ease:Linear});
 			myTimeline.stop();
 		}
 		//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -210,7 +210,7 @@ package com.cw.view.interfaceElements {
 			scrubberSymbolX = (theProgressNumber * progressBarWidth - (diagonal * .5)) - .5;
 			myTimeline = new TimelineLite({onComplete:progressHandler});
 			myTimeline.append(new TweenMax(scrubberSymbol, .01, {alpha:.5, x:scrubberSymbolX, ease:Linear}));
-			myTimeline.append(new TweenMax(progressBar, .01, {alpha:.15, scaleX:theProgressNumber, ease:Linear}));
+			myTimeline.append(new TweenMax(progressBar, .01, {alpha:.35, scaleX:theProgressNumber, ease:Linear}));
 		}
 		/**
 		 * Add mouse events for the scrubber.
