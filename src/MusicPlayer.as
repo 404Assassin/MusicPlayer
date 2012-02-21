@@ -23,7 +23,8 @@ package {
 	import com.cw.control.observer.IObserver;
 	import com.cw.control.observer.ISubject;
 	import com.cw.control.observer.InvokedObserver;
-	import com.cw.model.MP3LoadQueue;
+//	import com.cw.model.MP3LoadQueue;
+	import com.cw.control.loaders.MP3LoadQueue;
 	import com.cw.model.MusicPlayerState;
 	import com.cw.view.preloaders.OneBarPreloader;
 	import com.cw.view.MusicPlayerUI;
@@ -42,7 +43,7 @@ package {
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// SWF characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	[SWF(width = 800, height = 800, backgroundColor = 0x666666, frameRate = 30)]
+	[SWF(width = 800, height = 800, backgroundColor = 0x000000, frameRate = 30)]
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// Class characteristics
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
